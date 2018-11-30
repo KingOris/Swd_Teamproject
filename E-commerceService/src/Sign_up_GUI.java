@@ -101,6 +101,7 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Password confirmation is wrong","Tip",2);
                 pWField.setText("");
                 cPWField.setText("");
+
             }else{
                 myOpr.insertData(Id,password,emailAdd,phone,type);
                 setVisible(false);
