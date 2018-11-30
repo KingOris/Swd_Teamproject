@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Login_GUI extends JFrame {
     private JLabel user = new JLabel("     ID:      ");
@@ -8,6 +10,8 @@ public class Login_GUI extends JFrame {
     private JPasswordField userPassword = new JPasswordField();
     private JButton userlog = new JButton("Log In");
     private JButton register = new JButton("Register");
+    private String idSave;
+    private String passSave;
     public Login_GUI(){
         super("Log In");
         JPanel mainPanel = new JPanel();
@@ -29,6 +33,8 @@ public class Login_GUI extends JFrame {
         JPanel panel1 = new JPanel();
         panel1.setLayout(layout);
         userlog.setPreferredSize(new Dimension(140, 50));
+        ButtonHandler button= new ButtonHandler();
+        userlog.addActionListener(button);
         register.setPreferredSize(new Dimension(140, 50));
         panel1.add(userlog);
         panel1.add(register);
@@ -45,6 +51,19 @@ public class Login_GUI extends JFrame {
         log.setSize(400, 400);
         log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         log.setResizable(false);
+    }
+
+    public class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == userlog){
+                idSave = userID.getText();
+                passSave = password.getText();
+
+
+            }
+        }
     }
 }
 
