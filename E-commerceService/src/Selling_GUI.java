@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class Selling_GUI extends JFrame {
     private JTextField itemname;
@@ -9,6 +12,9 @@ public class Selling_GUI extends JFrame {
     private JLabel name;
     private JLabel priceL;
     private JLabel number;
+    private String nametext;
+    private BigDecimal pr;
+    private int numberofitem;
 
     public Selling_GUI(){
         super("Register Item");
@@ -20,11 +26,16 @@ public class Selling_GUI extends JFrame {
         price = new JTextField(10);
         num = new JTextField(10);
         register = new JButton("Register");
+        nametext = new String();
+        numberofitem = 0;
 
         name.setFont(new Font(null,Font.PLAIN,30));
         priceL.setFont(new Font(null,Font.PLAIN,30));
         number.setFont(new Font(null,Font.PLAIN,30));
-        panel.setLayout(new GridLayout(0,2,3,3));
+        panel.setLayout(new GridLayout(0,2,10,10));
+
+        ButtonHandler handler = new ButtonHandler();
+
 
         panel.add(name);
         panel.add(itemname);
@@ -35,16 +46,39 @@ public class Selling_GUI extends JFrame {
         panel.add(number);
         panel.add(num);
 
+        register.addActionListener(handler);
         panel.add(register);
 
         add(panel);
-        setVisible(true);
-        setSize(600,400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
     }
 
+    private class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            nametext = itemname.getText();
+            pr = new BigDecimal(price.getText());
+            numberofitem = Integer.parseInt(num.getText());
+        }
+    }
+
+    public int getNumberofitem(){
+        return numberofitem;
+    }
+
+    public BigDecimal getPr(){
+        return pr;
+    }
+
+    public String getNametext(){
+        return nametext;
+    }
     public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
+
+        sell.setSize(600,400);
+        sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        sell.setResizable(true);
+        sell.setVisible(true);
     }
 }
