@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainPage_GUI extends JFrame{
+    String log = "Log In";
     private JButton logButton = new JButton("Log In");
     private int goodsNumber = 100;
     private JPanel mainPanel;
@@ -16,9 +17,12 @@ public class MainPage_GUI extends JFrame{
     private JTextField searchBar = new JTextField(20);
     private JButton search = new JButton("Search");
 
+    private JButton logIn = new JButton(log);
+    private JButton sell = new JButton("sell");
+
     private MainPage_GUI(){
         super("Main Page");
-        mainPanel = new JPanel(new GridLayout(goodsNumber+2,1));
+        mainPanel = new JPanel(new GridLayout(goodsNumber+3,1));
         initialMainPage(goodsNumber);
         JScrollPane scroll = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.add(scroll);
@@ -27,6 +31,21 @@ public class MainPage_GUI extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     private void initialMainPage(int n){
+        //crate log in and sell button
+        JPanel logInPanel = new JPanel(new GridLayout(1,6));
+        logInPanel.add(sell);
+        JLabel block1 =new JLabel();
+        logInPanel.add(block1);
+        JLabel block2 =new JLabel();
+        logInPanel.add(block2);
+        JLabel block3 =new JLabel();
+        logInPanel.add(block3);
+        JLabel block4 =new JLabel();
+        logInPanel.add(block4);
+        //sell.setHorizontalAlignment(JButton.LEFT);
+        logInPanel.add(logIn);
+        //logIn.setHorizontalAlignment(JButton.RIGHT);
+        mainPanel.add(logInPanel);
 
 
         //crate search bar
@@ -65,7 +84,6 @@ public class MainPage_GUI extends JFrame{
             mainPanel.add(panel[i]);
         }
         this.add(mainPanel);
-
 
         this.pack();
     }
