@@ -12,6 +12,11 @@ public class DataBase_op {
     private int count1 = 0;
     private String id;
     private String password;
+    private String Id;
+    private String userP;
+    private String emailA;
+    private String pho;
+    private String user_t;
     public DataBase_op(DataBase_Con myDB){
         conn=myDB.getMyConnection();//取得对象
         stmt=myDB.getMyStatement();//取得sql语句
@@ -47,13 +52,28 @@ public class DataBase_op {
                     return true;
                 }
             }
-
-
         }catch(Exception e){
             e.printStackTrace();
         }
         return false;
     }
+
+    public void insertData(String Idn, String userPo, String emailAa, String phon, String user_te){
+        try{
+            String newType1=new String(Idn.getBytes(),"GBK");
+            String newType2=new String(userPo.getBytes(),"GBK");
+            String newType3=new String(emailAa.getBytes(),"GBK");
+            String newType4=new String(phon.getBytes(),"GBK");
+            String newType5=new String(user_te.getBytes(),"GBK");
+
+            String sql = "INSERT INTO user_information(userId,user_password,emailAdd,phone ,user_type)VALUES("+"'" + newType1+ "'"+",'"+newType2+"','"+newType3+"','"+newType4+"','"+newType5+"')";
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
+        }catch(Exception e1){
+            e1.printStackTrace();
+        }
+    }
+
     public void setNumber1(){
         count=0;
     }
