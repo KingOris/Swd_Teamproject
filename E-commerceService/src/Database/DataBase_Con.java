@@ -1,28 +1,23 @@
+package Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataBase_Con {
-    private String DBDriver;
-    private String DBURL;
-    private String DBUser;
-    private String DBPass;
-    private Connection conn=null;
-    private Statement stmt=null;
+    private static Connection conn=null;
+    private static Statement stmt=null;
     public DataBase_Con(){
-        DBDriver="com.mysql.jdbc.Driver";
-        DBURL="jdbc:mysql://localhost:3306/info";
-        DBUser="root";
-        DBPass="Zxb960922.";
         try{
-            Class.forName(DBDriver);
+            Class.forName("com.mysql.jdbc.Driver");//加载驱动程序
+            System.out.println("数据库驱动程序加载成功");
         }catch(Exception e){
             e.printStackTrace();
         }
         try{
-            conn= DriverManager.getConnection(DBURL,DBUser,DBPass);
-            stmt=conn.createStatement();
+
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/software","root","Zxb960922.");
+            stmt = conn.createStatement();
             System.out.print("success");
         }catch(Exception e){
             e.printStackTrace();

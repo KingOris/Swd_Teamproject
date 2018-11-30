@@ -1,3 +1,5 @@
+import Database.DataBase_op;
+import Database.DataBase_Con;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +14,8 @@ public class Login_GUI extends JFrame {
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
+    DataBase_Con myDB = new DataBase_Con();
+    public DataBase_op myOpr=new DataBase_op(myDB);
     public Login_GUI(){
         super("Log In");
         JPanel mainPanel = new JPanel();
@@ -57,10 +61,26 @@ public class Login_GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             if(e.getSource() == userlog){
                 idSave = userID.getText();
                 passSave = password.getText();
 
+                if(myOpr.selectName(idSave)){//登录判断
+                    if(myOpr.selectPassword(passSave)){
+                        JOptionPane.showMessageDialog(null, "登陆成功","提示",2);
+                        setVisible(false);//登录成功则关闭界面
+                    }else{
+                        JOptionPane.showMessageDialog(null, "密码错误","提示",2);
+                        userPassword.setText("");
+                        myOpr.setNumber1();//密码错误将number置0
+                        myOpr.setNumber2();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "此id不存在，请注册","提示",2);
+                    userID.setText("");
+                    userPassword.setText("");
+                }
 
             }
         }
