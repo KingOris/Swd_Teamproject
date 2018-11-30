@@ -50,9 +50,7 @@ public class Selling_GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try{
 
-            }catch ()
         }
     }
     public static void main(String args[]){
