@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Selling_GUI extends JFrame {
     private JTextField itemname;
@@ -24,7 +26,10 @@ public class Selling_GUI extends JFrame {
         name.setFont(new Font(null,Font.PLAIN,30));
         priceL.setFont(new Font(null,Font.PLAIN,30));
         number.setFont(new Font(null,Font.PLAIN,30));
-        panel.setLayout(new GridLayout(0,2,3,3));
+        panel.setLayout(new GridLayout(0,2,10,10));
+
+        ButtonHandler handler = new ButtonHandler();
+
 
         panel.add(name);
         panel.add(itemname);
@@ -35,16 +40,27 @@ public class Selling_GUI extends JFrame {
         panel.add(number);
         panel.add(num);
 
+        register.addActionListener(handler);
         panel.add(register);
 
         add(panel);
-        setVisible(true);
-        setSize(600,400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
     }
 
+    private class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+
+            }catch ()
+        }
+    }
     public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
+
+        sell.setSize(600,400);
+        sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        sell.setResizable(true);
+        sell.setVisible(true);
     }
 }
