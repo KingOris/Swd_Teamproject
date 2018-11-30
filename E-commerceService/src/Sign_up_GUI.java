@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 public class Sign_up_GUI extends JFrame implements ActionListener {
     private JTextField IDField = new JTextField(10);
     private JTextField pWField = new JTextField(10);
+    private JTextField cPWField = new JTextField(10);
     private JTextField eField = new JTextField(10);
     private JTextField pNField = new JTextField(10);
     private JComboBox bar = generateBar();
