@@ -9,7 +9,7 @@ public class DataBase_Con {
     private static Statement stmt=null;
     public DataBase_Con(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");//加载驱动程序
+            Class.forName("com.mysql.jdbc.Driver");
             System.out.println("数据库驱动程序加载成功");
         }catch(Exception e){
             e.printStackTrace();
@@ -35,7 +35,6 @@ public class DataBase_Con {
             conn.close();
         }catch(SQLException e){
             e.printStackTrace();
-
 
         }
     }
