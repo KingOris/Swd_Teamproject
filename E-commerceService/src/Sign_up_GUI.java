@@ -1,7 +1,15 @@
+import Database.DataBase_Con;
+import Database.DataBase_op;
+import sun.rmi.runtime.Log;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Sign_up_GUI extends JFrame implements ActionListener {
     private JTextField IDField = new JTextField(10);
@@ -10,8 +18,10 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
     private JTextField eField = new JTextField(10);
     private JTextField pNField = new JTextField(10);
     private JComboBox bar = generateBar();
-    private int buyerOrSeller = 0;
+    private String buyerOrSeller = "";
     private JButton signUp = new JButton("Sign Up");
+    DataBase_Con myDB = new DataBase_Con();
+    public DataBase_op myOpr=new DataBase_op(myDB);
     public Sign_up_GUI(){
         super("Register");
         initialSignUp();
@@ -56,7 +66,7 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
     }
 
     private JComboBox<String> generateBar(){
-        String[] choice = {"Buyer", "Seller", "Seller and Buyer", "da sha gua"};
+        String[] choice = {"Buyer", "Seller", "Seller and Buyer"};
         JComboBox<String> bar = new JComboBox<>(choice);
         bar.setSelectedIndex(1);
 
@@ -71,25 +81,38 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
             if (msg != null) {
                 switch(msg){
                     case "Buyer" :
-                        buyerOrSeller = 1;
+                        buyerOrSeller = "Buyer";
                     break;
                     case "Seller" :
-                        buyerOrSeller = 2;
+                        buyerOrSeller = "Seller";
                     break;
                     case "Seller and Buyer" :
-                        buyerOrSeller = 3;
+                        buyerOrSeller = "Seller and Buyer";
                 }
             }
         }else if(e.getSource() == signUp){
-            signUp.setText("Clicked");
+            String Id = IDField.getText();
+            String password = pWField.getText();
+            String password1 = cPWField.getText();
+            String emailAdd = eField.getText();
+            String phone = pNField.getText();
+            String  type = buyerOrSeller;
+            if(!password.equals(password1)){
+                JOptionPane.showMessageDialog(null, "Password confirmation is wrong","Tip",2);
+                pWField.setText("");
+                cPWField.setText("");
+            }else{
+                myOpr.insertData(Id,password,emailAdd,phone,type);
+                setVisible(false);
+                Login_GUI log = new Login_GUI();
+                log.setVisible(true);
+                log.setSize(400, 400);
+                log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                log.setResizable(false);
+            }
         }
     }
 
-
-    public static void main(String args[]){
-        new Sign_up_GUI();
-
-    }
 }
 
 

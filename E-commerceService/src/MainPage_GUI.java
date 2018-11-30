@@ -16,7 +16,7 @@ public class MainPage_GUI extends JFrame{
     private JTextField searchBar = new JTextField(20);
     private JButton search = new JButton("Search");
 
-    private MainPage_GUI(){
+    public MainPage_GUI(){
         super("Main Page");
         mainPanel = new JPanel(new GridLayout(goodsNumber+2,1));
         initialMainPage(goodsNumber);

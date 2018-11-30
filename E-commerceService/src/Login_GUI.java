@@ -40,6 +40,7 @@ public class Login_GUI extends JFrame {
         ButtonHandler button= new ButtonHandler();
         userlog.addActionListener(button);
         register.setPreferredSize(new Dimension(140, 50));
+        register.addActionListener(button);
         panel1.add(userlog);
         panel1.add(register);
 
@@ -67,21 +68,26 @@ public class Login_GUI extends JFrame {
                 passSave = userPassword.getText();
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
-                        JOptionPane.showMessageDialog(null, "登陆成功","提示",2);
+                        MainPage_GUI lalal = new MainPage_GUI();
                         setVisible(false);//登录成功则关闭界面
                     }else{
-                        JOptionPane.showMessageDialog(null, "密码错误","提示",2);
+                        JOptionPane.showMessageDialog(null, "Password is wrong","Tip",2);
                         userPassword.setText("");
                         myOpr.setNumber1();//密码错误将number置0
                         myOpr.setNumber2();
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null, "此id不存在，请注册","提示",2);
+                    JOptionPane.showMessageDialog(null, "This Id is not registered","Tip",2);
                     userID.setText("");
                     userPassword.setText("");
                 }
 
             }
+            if(e.getSource() == register){
+                Sign_up_GUI sign = new Sign_up_GUI();
+                setVisible(false);
+            }
+
         }
     }
 }
