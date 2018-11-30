@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class Selling_GUI extends JFrame {
     private JTextField itemname;
@@ -11,6 +12,9 @@ public class Selling_GUI extends JFrame {
     private JLabel name;
     private JLabel priceL;
     private JLabel number;
+    private String nametext;
+    private BigDecimal pr;
+    private int numberofitem;
 
     public Selling_GUI(){
         super("Register Item");
@@ -22,6 +26,8 @@ public class Selling_GUI extends JFrame {
         price = new JTextField(10);
         num = new JTextField(10);
         register = new JButton("Register");
+        nametext = new String();
+        numberofitem = 0;
 
         name.setFont(new Font(null,Font.PLAIN,30));
         priceL.setFont(new Font(null,Font.PLAIN,30));
@@ -50,8 +56,22 @@ public class Selling_GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            nametext = itemname.getText();
+            pr = new BigDecimal(price.getText());
+            numberofitem = Integer.parseInt(num.getText());
         }
+    }
+
+    public int getNumberofitem(){
+        return numberofitem;
+    }
+
+    public BigDecimal getPr(){
+        return pr;
+    }
+
+    public String getNametext(){
+        return nametext;
     }
     public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
