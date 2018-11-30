@@ -14,11 +14,14 @@ public class Login_GUI extends JFrame {
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
+    private boolean loginSuccess;
     DataBase_Con myDB = new DataBase_Con();
     public DataBase_op myOpr=new DataBase_op(myDB);
     public Login_GUI(){
         super("Log In");
         JPanel mainPanel = new JPanel();
+
+        loginSuccess = false;
 
         JPanel panel = new JPanel();
         FlowLayout layout = new FlowLayout();
@@ -49,13 +52,13 @@ public class Login_GUI extends JFrame {
 
         add(mainPanel);
     }
-    public static void main(String args[]){
+    /*public static void main(String args[]){
         Login_GUI log = new Login_GUI();
         log.setVisible(true);
         log.setSize(400, 400);
         log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         log.setResizable(false);
-    }
+    }*/
 
     public class ButtonHandler implements ActionListener{
 
@@ -68,6 +71,7 @@ public class Login_GUI extends JFrame {
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
                         JOptionPane.showMessageDialog(null, "登陆成功","提示",2);
+                        loginSuccess = true;
                         setVisible(false);//登录成功则关闭界面
                     }else{
                         JOptionPane.showMessageDialog(null, "密码错误","提示",2);
@@ -83,6 +87,10 @@ public class Login_GUI extends JFrame {
 
             }
         }
+    }
+
+    public boolean isLoginSuccess(){
+        return loginSuccess;
     }
 }
 

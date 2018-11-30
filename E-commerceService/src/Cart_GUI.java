@@ -74,12 +74,12 @@ public class Cart_GUI extends JFrame {
         }
     }
 
-    public static void main(String[] args){
+   /* public static void main(String[] args){
         Cart_GUI cart_gui = new Cart_GUI(10);
         cart_gui.setSize(600,400);
         cart_gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cart_gui.setResizable(true);
         cart_gui.setVisible(true);
-    }
+    }*/
 }
 

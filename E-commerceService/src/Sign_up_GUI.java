@@ -86,10 +86,10 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
     }
 
 
-    public static void main(String args[]){
+   /* public static void main(String args[]){
         new Sign_up_GUI();
 
-    }
+    }*/
 }
 
 
