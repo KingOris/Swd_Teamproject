@@ -21,7 +21,7 @@ public class DataBase_op {
         try{
             ResultSet rs=stmt.executeQuery(sql);//返回结果集
             while(rs.next()){//指针向后移动
-                password=rs.getString("password");
+                password=rs.getString("user_password");
                 count++;
                 //System.out.print(rs.getString("password")+"  ");
                 if(password.equals(mpassword)&&(count==count1)){
@@ -36,11 +36,11 @@ public class DataBase_op {
         return false;
     }
     public boolean selectName(String mname){//查询id
-        String sql="SELECT scores,name,password FROM player";
+        String sql="SELECT * FROM user_information";
         try{
-            ResultSet rs=stmt.executeQuery(sql);//返回结果集
+            ResultSet rs = stmt.executeQuery(sql);//返回结果集
             while(rs.next()){//指针向后移动
-                id=rs.getString("name");
+                id=rs.getString("userId");
                 count1++;
                 if(id.equals(mname)){
                     //System.out.print("number1:"+number1);

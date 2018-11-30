@@ -16,7 +16,7 @@ public class DataBase_Con {
         }
         try{
 
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/software","root","Zxb960922.");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/software","root","831015");
             stmt = conn.createStatement();
             System.out.print("success");
         }catch(Exception e){

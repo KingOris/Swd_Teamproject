@@ -64,8 +64,7 @@ public class Login_GUI extends JFrame {
 
             if(e.getSource() == userlog){
                 idSave = userID.getText();
-                passSave = password.getText();
-
+                passSave = userPassword.getText();
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
                         JOptionPane.showMessageDialog(null, "登陆成功","提示",2);
