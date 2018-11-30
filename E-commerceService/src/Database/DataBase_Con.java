@@ -35,6 +35,8 @@ public class DataBase_Con {
             conn.close();
         }catch(SQLException e){
             e.printStackTrace();
+
+
         }
     }
 }
