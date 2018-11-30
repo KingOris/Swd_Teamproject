@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 public class Sign_up_GUI extends JFrame implements ActionListener {
     private JTextField IDField = new JTextField(10);
-    private JTextField pWField = new JTextField(10);
-    private JTextField cPWField = new JTextField(10);
+    private JPasswordField pWField = new JPasswordField(10);
+    private JPasswordField cPWField = new JPasswordField(10);
     private JTextField eField = new JTextField(10);
     private JTextField pNField = new JTextField(10);
     private JComboBox bar = generateBar();
@@ -25,11 +25,13 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
 
     private void initialSignUp(){
 
-        JPanel panel = new JPanel(new GridLayout(5,2));
+        JPanel panel = new JPanel(new GridLayout(6,2));
         JLabel ID = new JLabel("ID: ");
         ID.setHorizontalAlignment(JLabel.RIGHT);
         JLabel password = new JLabel("Password");
         password.setHorizontalAlignment(JLabel.RIGHT);
+        JLabel confirmPassword = new JLabel("Confirm Password");
+        confirmPassword.setHorizontalAlignment(JLabel.RIGHT);
         JLabel email = new JLabel("Email: ");
         email.setHorizontalAlignment(JLabel.RIGHT);
         JLabel phoneNum = new JLabel("Phone Number: ");
@@ -41,6 +43,8 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
         panel.add(IDField);
         panel.add(password);
         panel.add(pWField);
+        panel.add(confirmPassword);
+        panel.add(cPWField);
         panel.add(email);
         panel.add(eField);
         panel.add(phoneNum);
@@ -52,7 +56,7 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
     }
 
     private JComboBox<String> generateBar(){
-        String[] choice = {"Buyer", "Seller", "Seller and Buyer"};
+        String[] choice = {"Buyer", "Seller", "Seller and Buyer", "da sha gua"};
         JComboBox<String> bar = new JComboBox<>(choice);
         bar.setSelectedIndex(1);
 
