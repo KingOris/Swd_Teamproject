@@ -39,6 +39,9 @@ public class Cart_GUI extends JFrame {
         totalPanel.add(totalAmount);
 
         mainPanel.add(totalPanel);
+
+        JScrollPane scroll = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        add(scroll);
         add(mainPanel);
     }
 
@@ -51,7 +54,7 @@ public class Cart_GUI extends JFrame {
         CheckBoxHandler handler = new CheckBoxHandler();
         goodsBuy[i].addItemListener(handler);
 
-        panel[i] = new JPanel();
+        panel[i] = new JPanel(new GridLayout(1,4));
 
         panel[i].add(goodsName[i]);
         panel[i].add(goodsPrice[i]);

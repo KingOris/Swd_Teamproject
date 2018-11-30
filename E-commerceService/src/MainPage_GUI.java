@@ -46,7 +46,6 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
         initialMainPage(goodsNumber);
         JScrollPane scroll = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         this.add(scroll);
         this.setVisible(true);
         this.setSize(800,500);
@@ -129,6 +128,12 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             log.setSize(400, 400);
             log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             log.setResizable(false);
+        }else if(e.getSource() == myChart){
+            Cart_GUI cart_gui = new Cart_GUI(goodsNumber);
+            cart_gui.setSize(600,400);
+            cart_gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            cart_gui.setVisible(true);
+            cart_gui.setResizable(false);
         }
     }
 }
