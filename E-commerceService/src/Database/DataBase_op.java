@@ -12,11 +12,6 @@ public class DataBase_op {
     private int count1 = 0;
     private String id;
     private String password;
-    private String Id;
-    private String userP;
-    private String emailA;
-    private String pho;
-    private String user_t;
     public DataBase_op(DataBase_Con myDB){
         conn=myDB.getMyConnection();//取得对象
         stmt=myDB.getMyStatement();//取得sql语句
