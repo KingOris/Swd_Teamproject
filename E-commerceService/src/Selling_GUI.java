@@ -73,12 +73,12 @@ public class Selling_GUI extends JFrame {
     public String getNametext(){
         return nametext;
     }
-    public static void main(String args[]){
+   /* public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
 
         sell.setSize(600,400);
         sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         sell.setResizable(true);
         sell.setVisible(true);
-    }
+    }*/
 }
