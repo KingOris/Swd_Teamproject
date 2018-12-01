@@ -64,6 +64,7 @@ public class Cart_GUI extends JFrame {
             setItempanel("name", "100", 10, i);
         }
 
+
         totalAmount.setText(totalPrice.toString());
 
         JPanel totalPanel = new JPanel();

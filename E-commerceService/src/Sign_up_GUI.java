@@ -73,6 +73,10 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
         return bar;
     }
 
+    private boolean isUnique(String Id){
+        return true;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == bar){
@@ -102,7 +106,14 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
                 pWField.setText("");
                 cPWField.setText("");
 
-            }else{
+            }else if (!emailAdd.contains("@")) {
+                JOptionPane.showMessageDialog(null,"Email Format Invalid");
+                eField.setText("");
+            }else if (!isUnique(Id)){
+                JOptionPane.showMessageDialog(null, "Username was Occupied");
+                eField.setText("");
+            }
+            else{
                 myOpr.insertData(Id,password,emailAdd,phone,type);
                 setVisible(false);
                 Login_GUI log = new Login_GUI();
