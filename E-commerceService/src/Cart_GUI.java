@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import javax.swing.JCheckBox;
 
 
 public class Cart_GUI extends JFrame {
     private JPanel mainPanel;
-    private JPanel[] itemPanel;
     private int goodsNumber;
     private JCheckBox[] goodsBuy;
     private JLabel[] goodsName;
@@ -18,11 +18,11 @@ public class Cart_GUI extends JFrame {
     private JLabel total;
     private JLabel totalAmount;
 
+    //public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout) {
     public Cart_GUI(int goodsNumber) {
         super("Cart");
         this.goodsNumber = goodsNumber;
         mainPanel = new JPanel(new GridLayout(this.goodsNumber + 1, 1, 1, 6));
-        itemPanel = new JPanel[this.goodsNumber];
         panel = new JPanel[this.goodsNumber ];
         goodsBuy = new JCheckBox[this.goodsNumber];
         goodsName = new JLabel[this.goodsNumber];
@@ -30,19 +30,24 @@ public class Cart_GUI extends JFrame {
         goodsPrice = new JLabel[this.goodsNumber];
         total = new JLabel("Total : ");
         totalAmount = new JLabel();
+
         for(int i = 0; i<this.goodsNumber; i++){
-            setItempanel("name","10",10,i);
+            //setItempanel(name.get(i),price.get(i),amout.get(i),i);
+            setItempanel("name","100",10,i);
         }
 
         JPanel totalPanel = new JPanel();
         totalPanel.add(total);
         totalPanel.add(totalAmount);
 
+
         mainPanel.add(totalPanel);
 
+        add(mainPanel);
         JScrollPane scroll = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(scroll);
-        add(mainPanel);
+
+
     }
 
 
@@ -71,18 +76,18 @@ public class Cart_GUI extends JFrame {
                 if (goodsBuy[i].isSelected()) {
                     BigDecimal ppp = new BigDecimal(goodsPrice[i].getText());
                     totalPrice = totalPrice.add(ppp);
-                    totalAmount.setText(totalPrice.toString());
-                }
-            }
+       totalAmount.setText(totalPrice.toString());
+   }
+}
         }
-    }
+                }
 
-   /* public static void main(String[] args){
-        Cart_GUI cart_gui = new Cart_GUI(10);
+public static void main(String[] args){
+        Cart_GUI cart_gui = new Cart_GUI(50);
         cart_gui.setSize(600,400);
         cart_gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cart_gui.setResizable(true);
         cart_gui.setVisible(true);
-    }*/
+    }
 }
 
