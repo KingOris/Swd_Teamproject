@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Login_GUI extends JFrame {
     private JLabel user = new JLabel("     ID:      ");
@@ -48,14 +50,22 @@ public class Login_GUI extends JFrame {
         mainPanel.add(panel2);
         mainPanel.add(panel1);
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                System.out.println("Window Closed");
+                new MainPage_GUI();
+            }
+        });
         add(mainPanel);
     }
     public static void main(String args[]){
-        Login_GUI log = new Login_GUI();
+        /*Login_GUI log = new Login_GUI();
         log.setVisible(true);
         log.setSize(400, 400);
         log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        log.setResizable(false);
+        log.setResizable(false);*/
     }
 
     public class ButtonHandler implements ActionListener{

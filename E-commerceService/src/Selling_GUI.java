@@ -20,8 +20,11 @@ public class Selling_GUI extends JFrame {
         super("Register Item");
         JPanel panel = new JPanel();
         name = new JLabel("Item Name");
+        name.setHorizontalAlignment(JLabel.RIGHT);
         priceL = new JLabel("Price");
+        priceL.setHorizontalAlignment(JLabel.RIGHT);
         number = new JLabel("The number of items");
+        number.setHorizontalAlignment(JLabel.RIGHT);
         itemname = new JTextField(10);
         price = new JTextField(10);
         num = new JTextField(10);
@@ -29,9 +32,11 @@ public class Selling_GUI extends JFrame {
         nametext = new String();
         numberofitem = 0;
 
-        name.setFont(new Font(null,Font.PLAIN,30));
-        priceL.setFont(new Font(null,Font.PLAIN,30));
-        number.setFont(new Font(null,Font.PLAIN,30));
+        JLabel block = new JLabel();
+
+        //name.setFont(new Font(null,Font.PLAIN,30));
+        //priceL.setFont(new Font(null,Font.PLAIN,30));
+        //number.setFont(new Font(null,Font.PLAIN,30));
         panel.setLayout(new GridLayout(0,2,10,10));
 
         ButtonHandler handler = new ButtonHandler();
@@ -46,6 +51,7 @@ public class Selling_GUI extends JFrame {
         panel.add(number);
         panel.add(num);
 
+        panel.add(block);
         register.addActionListener(handler);
         panel.add(register);
 
@@ -73,10 +79,10 @@ public class Selling_GUI extends JFrame {
     public String getNametext(){
         return nametext;
     }
-   /* public static void main(String args[]){
+    /*public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
 
-        sell.setSize(600,400);
+        sell.setSize(500,150);
         sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         sell.setResizable(true);
         sell.setVisible(true);
