@@ -181,6 +181,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             sell.setSize(500,150);
             sell.setResizable(true);
             sell.setVisible(true);
+        }else{
+            for (int i = 0; i < goodsNumber; i++){
+
+            }
         }
     }
 }

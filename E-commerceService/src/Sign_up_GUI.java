@@ -66,10 +66,9 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
     }
 
     private JComboBox<String> generateBar(){
-        String[] choice = {"Buyer", "Seller", "Seller and Buyer"};
+        String[] choice = {"Account Type", "Buyer", "Seller", "Seller and Buyer",};
         JComboBox<String> bar = new JComboBox<>(choice);
-        bar.setSelectedIndex(1);
-
+        bar.setSelectedIndex(0);
         return bar;
     }
 
@@ -92,6 +91,9 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
                     break;
                     case "Seller and Buyer" :
                         buyerOrSeller = "Seller and Buyer";
+                        break;
+                    case "Account Type":
+                        buyerOrSeller = "";
                 }
             }
         }else if(e.getSource() == signUp){
@@ -112,6 +114,8 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
             }else if (!isUnique(Id)){
                 JOptionPane.showMessageDialog(null, "Username was Occupied");
                 eField.setText("");
+            }else if(buyerOrSeller.equals("")){
+                JOptionPane.showMessageDialog(null, "Please Choose Account Type");
             }
             else{
                 myOpr.insertData(Id,password,emailAdd,phone,type);
