@@ -16,7 +16,7 @@ public class DataBase_Con {
         }
         try{
 
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/software","root","831015");
+            conn = DriverManager.getConnection("jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class036","engr_class036","123");
             stmt = conn.createStatement();
             System.out.print("success");
         }catch(Exception e){
@@ -35,6 +35,7 @@ public class DataBase_Con {
             conn.close();
         }catch(SQLException e){
             e.printStackTrace();
+
 
         }
     }
