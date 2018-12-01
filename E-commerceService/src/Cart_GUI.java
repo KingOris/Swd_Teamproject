@@ -25,6 +25,8 @@ public class Cart_GUI extends JFrame {
     private BigDecimal totalPrice;
     private ArrayList<Integer> removeNum;
     private JPanel totalPanel;
+    private JButton buy;
+
 
     //public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout) {
     public Cart_GUI(int goodsNumber) {
@@ -43,6 +45,7 @@ public class Cart_GUI extends JFrame {
         check = true;
         totalPrice = new BigDecimal("0");
         removeNum = new ArrayList<>();
+        buy = new JButton("Buy");
 
 
         setTitle();
@@ -50,8 +53,9 @@ public class Cart_GUI extends JFrame {
         CheckAll action = new CheckAll();
         markAll.addActionListener(action);
 
-        RemoveHandler removeHandler = new RemoveHandler();
+        GetHandler removeHandler = new GetHandler();
         remove.addActionListener(removeHandler);
+        buy.addActionListener(removeHandler);
 
         for (int i = 0; i < this.goodsNumber; i++) {
             //setItempanel(name.get(i),price.get(i),amout.get(i),i);
@@ -145,7 +149,7 @@ public class Cart_GUI extends JFrame {
         }
     }
 
-    private class RemoveHandler implements ActionListener{
+    private class GetHandler implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -154,6 +158,7 @@ public class Cart_GUI extends JFrame {
                     removeNum.add(i);
                 }
         }
+        System.out.print(removeNum);
     }
     }
 
@@ -163,6 +168,7 @@ public class Cart_GUI extends JFrame {
         totalPanel.add(totalAmount);
         totalPanel.add(markAll);
         totalPanel.add(remove);
+        totalPanel.add(buy);
         mainPanel.add(totalPanel);
     }
 
