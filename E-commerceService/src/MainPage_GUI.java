@@ -1,7 +1,13 @@
+import com.sun.codemodel.internal.JOp;
+import jdk.nashorn.internal.scripts.JO;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class MainPage_GUI extends JFrame implements ActionListener {
     String log = "Log In";
@@ -16,6 +22,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private JPanel[] panel;
     private JButton[] contact;
     private JButton[] detail;
+    private JLabel[] icon;
 
 
     private JTextField searchBar = new JTextField(20);
@@ -39,6 +46,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         panel = new JPanel[goodsNumber];
         contact = new JButton[goodsNumber];
         detail = new JButton[goodsNumber];
+        icon = new JLabel[goodsNumber];
         logIn.addActionListener(this);
         myChart.addActionListener(this);
         sell.addActionListener(this);
@@ -57,6 +65,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private void initialMainPage(int n){
         for(int i =0; i< n; i++){
 
+            ImageIcon goodIcon = new ImageIcon(setIcon());
+            Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
+            icon[i] = new JLabel(new ImageIcon(resizedIcon));
+            icon[i].setHorizontalAlignment(JLabel.CENTER);
             goodsName[i] = new JLabel("This is " + i + "'st " + "product");
             goodsName[i].setMaximumSize(new Dimension(100, 30));
             goodsPrice[i]= new JLabel("The price is " + i);
@@ -72,7 +84,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
 
             panel[i] = new JPanel();
-            panel[i].setLayout((new GridLayout(1,4)));
+            panel[i].setLayout((new GridLayout(1,7)));
+            panel[i].add(icon[i]);
             panel[i].add(goodsName[i]);
             panel[i].add(goodsPrice[i]);
             panel[i].add(goodsQuality[i]);
@@ -120,6 +133,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     private void addTittle(){
         //set title for products
+        JLabel block0 = new JLabel();
         JLabel Name = new JLabel("Products Name");
         Name.setHorizontalAlignment(JLabel.LEFT);
         JLabel price = new JLabel("Price");
@@ -129,7 +143,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         JLabel block = new JLabel();
         JLabel block1 = new JLabel();
         JLabel block2 = new JLabel();
-        JPanel title = new JPanel(new GridLayout(1,6));
+        JPanel title = new JPanel(new GridLayout(1,7));
+        title.add(block0);
         title.add(Name);
         title.add(price);
         title.add(amount);
@@ -137,6 +152,15 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         title.add(block1);
         title.add(block2);
         mainPanel.add(title);
+    }
+
+    private BufferedImage setIcon(){
+        try {
+            BufferedImage picture = ImageIO.read(getClass().getResource("picture.jpg"));
+            return picture;
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Can not read image");
+        }
     }
 
     @Override
@@ -183,6 +207,13 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             sell.setVisible(true);
         }else{
             for (int i = 0; i < goodsNumber; i++){
+                if(e.getSource() == goodsBuy[i]){
+                    JOptionPane.showMessageDialog(null, "item" + i + " was added to chart");
+                }else if(e.getSource() == contact[i]){
+                    JOptionPane.showMessageDialog(null,"Contact " + i + " Server");
+                }else if (e.getSource() == detail[i]){
+                    JOptionPane.showMessageDialog(null, "Detail of " + i + " does not exist" );
+                }
 
             }
         }
