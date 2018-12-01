@@ -30,7 +30,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     MainPage_GUI(){
         super("Main Page");
-        goodsNumber = 100;
+        goodsNumber = 10;
         mainPanel = new JPanel(new GridLayout(goodsNumber+3,1));
         goodsName = new JLabel[goodsNumber];
         goodsPrice = new JLabel[goodsNumber];
