@@ -22,7 +22,7 @@ public class Cart_GUI extends JFrame {
     public Cart_GUI(int goodsNumber) {
         super("Cart");
         this.goodsNumber = goodsNumber;
-        mainPanel = new JPanel(new GridLayout(this.goodsNumber + 1, 1, 1, 6));
+        mainPanel = new JPanel(new GridLayout(this.goodsNumber + 2, 1, 1, 6));
         panel = new JPanel[this.goodsNumber ];
         goodsBuy = new JCheckBox[this.goodsNumber];
         goodsName = new JLabel[this.goodsNumber];
@@ -31,10 +31,26 @@ public class Cart_GUI extends JFrame {
         total = new JLabel("Total : ");
         totalAmount = new JLabel();
 
+        JLabel Name = new JLabel("Products Name");
+        Name.setHorizontalAlignment(JLabel.LEFT);
+        JLabel price = new JLabel("Price");
+        price.setHorizontalAlignment(JLabel.LEFT);
+        JLabel amount = new JLabel("Amount");
+        amount.setHorizontalAlignment(JLabel.LEFT);
+        JLabel mark = new JLabel("Mark");
+        amount.setHorizontalAlignment(JLabel.LEFT);
+        JPanel title = new JPanel(new GridLayout(1,4));
+        title.add(Name);
+        title.add(price);
+        title.add(amount);
+        title.add(mark);
+        mainPanel.add(title);
+
         for(int i = 0; i<this.goodsNumber; i++){
             //setItempanel(name.get(i),price.get(i),amout.get(i),i);
             setItempanel("name","100",10,i);
         }
+        
 
         JPanel totalPanel = new JPanel();
         totalPanel.add(total);

@@ -177,11 +177,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             mainPanel.updateUI();
             //repaint();
         }else if(e.getSource() == sell){
-
-        }Selling_GUI sell = new Selling_GUI();
-        sell.setSize(500,150);
-        sell.setResizable(true);
-        sell.setVisible(true);
-        setResizable(false);
+            Selling_GUI sell = new Selling_GUI();
+            sell.setSize(500,150);
+            sell.setResizable(true);
+            sell.setVisible(true);
+        }
     }
 }
