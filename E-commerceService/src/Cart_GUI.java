@@ -50,7 +50,7 @@ public class Cart_GUI extends JFrame {
             //setItempanel(name.get(i),price.get(i),amout.get(i),i);
             setItempanel("name","100",10,i);
         }
-        
+
 
         JPanel totalPanel = new JPanel();
         totalPanel.add(total);
