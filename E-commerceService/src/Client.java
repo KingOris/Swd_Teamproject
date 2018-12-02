@@ -19,12 +19,7 @@ public class Client extends JFrame {
     private String host;
     private Socket client;
 
-
-
-
-
-
-    private static final int PORT = 23555;
+    private static final int PORT = 23000;
     public Client(String host){
         super("Client");
         this.host = host;        // set server to which this client connects
@@ -33,6 +28,7 @@ public class Client extends JFrame {
         input.addActionListener(handler);
         add(input, BorderLayout.NORTH);
         add(new JScrollPane(result), BorderLayout.CENTER);
+        setVisible(true);
     }
     public void runClient(){
         try{
@@ -89,6 +85,20 @@ public class Client extends JFrame {
         inputStream = new ObjectInputStream(client.getInputStream());
 
         result.append("\nGot I/O streams\n");
+    }
+
+    public static void main(String[] args) {
+        Client application; // declare client application
+
+        // if no command line args
+        if (args.length == 0)
+            application = new Client("127.0.0.1"); // connect to localhost
+        else
+            application = new Client(args[0]); // use args to connect
+
+        application.setSize(600,600);
+        application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        application.runClient(); // run client application
     }
 }
 
