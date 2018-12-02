@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -135,7 +136,8 @@ public class DataBase_op {
 
 
     public String getItemName(int index){
-        String cmd = "SELECT item_name FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        int ind = index+1;
+        String cmd = "SELECT item_name FROM item WHERE item_id = ("+"'" + ind + "'"+ ")";
         try {
             ResultSet rs = stmt.executeQuery(cmd);
             if(rs.next()){
@@ -149,7 +151,8 @@ public class DataBase_op {
     }
 
     public String getItemPrice(int index){
-        String cmd = "SELECT item_price FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        int ind = index+1;
+        String cmd = "SELECT item_price FROM item WHERE item_id = ("+"'" + ind + "'"+ ")";
         try {
             ResultSet rs = stmt.executeQuery(cmd);
             if(rs.next()){
@@ -162,7 +165,8 @@ public class DataBase_op {
     }
 
     public int getItemAmount(int index){
-        String cmd = "SELECT item_amount FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        int ind = index+1;
+        String cmd = "SELECT item_amount FROM item WHERE item_id = ("+"'" + ind + "'"+ ")";
         try {
             ResultSet rs = stmt.executeQuery(cmd);
             if(rs.next()){
@@ -231,9 +235,10 @@ public class DataBase_op {
     }
 
     public int getUserIndex(String userId){
-        String userName=new String(userId.getBytes());
-        String name = "SELECT user_Index FROM user_information WHERE userId = ("+"'" + userName + "'"+ ")";
+
         try {
+            String userName=new String(userId.getBytes());
+            String name = "SELECT user_Index FROM user_information WHERE userId = ("+"'" + userName + "'"+ ")";
             ResultSet rs = stmt.executeQuery(name);
             //System.out.println("This is what in DB "+ rs.getInt("user_index"));
             if(rs.next()) {
@@ -241,10 +246,21 @@ public class DataBase_op {
                 return rs.getInt("user_index");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return -1;
         }
         return -1;
     }
+
+    /*public void insertImage(BufferedImage image){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image,"jpg", byteArrayOutputStream);
+            byte[] imageByte = byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }*/
 
 
 
