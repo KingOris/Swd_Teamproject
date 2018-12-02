@@ -69,7 +69,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private void initialMainPage(int n){
         for(int i =0; i< n; i++){
 
-            ImageIcon goodIcon = new ImageIcon(setIcon());
+            ImageIcon goodIcon = new ImageIcon(myOpr.getImage(1));
             Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
             icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i].setHorizontalAlignment(JLabel.CENTER);
@@ -170,13 +170,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         mainPanel.add(title);
     }
 
-    private BufferedImage setIcon(){
-        try {
-            return ImageIO.read(getClass().getResource("picture.jpg"));
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Can not read image");
-        }
-    }
+    /*private BufferedImage setIcon(){
+        return ;
+        //return ImageIO.read(getClass().getResource("picture.jpg"));
+    }*/
 
     @Override
     public void actionPerformed(ActionEvent e) {

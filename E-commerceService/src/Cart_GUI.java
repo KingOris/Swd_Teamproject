@@ -50,7 +50,7 @@ public class Cart_GUI extends JFrame {
         removeNum = new ArrayList<>();
         buy = new JButton("Buy");
         time = new JLabel[this.goodsNumber];
-        all = new JPanel(new GridLayout(3,1));
+        all = new JPanel(new GridLayout(3,1,10,10));
         setTitle();
 
         CheckAll action = new CheckAll();
