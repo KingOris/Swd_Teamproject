@@ -2,6 +2,7 @@ package Database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataBase_op {
@@ -74,5 +75,21 @@ public class DataBase_op {
     }
     public void setNumber2(){
         count=0;
+    }
+
+    public String getUserName(int userInd){
+        String name = "SELECT userId FROM user_information WHERE user_index = VALUES(userId)";
+        try {
+            System.out.println("Trying");
+            ResultSet rs = stmt.executeQuery(name);
+            System.out.println(rs);
+            System.out.println("Has next");
+            System.out.println(rs.getString("userId"));
+            return rs.getString("userId");
+            //System.out.println(rs.getString("userId"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return"Log In";
     }
 }

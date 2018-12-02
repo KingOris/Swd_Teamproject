@@ -55,7 +55,7 @@ public class Login_GUI extends JFrame {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 System.out.println("Window Closed");
-                new MainPage_GUI();
+                new MainPage_GUI(1);
             }
         });
         add(mainPanel);
@@ -78,8 +78,9 @@ public class Login_GUI extends JFrame {
                 passSave = userPassword.getText();
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
-                        MainPage_GUI lalal = new MainPage_GUI();
-                        setVisible(false);//登录成功则关闭界面
+                        MainPage_GUI lalal = new MainPage_GUI(1);
+                        dispose();
+                        //setVisible(false);//登录成功则关闭界面
                     }else{
                         JOptionPane.showMessageDialog(null, "Password is wrong","Tip",2);
                         userPassword.setText("");
