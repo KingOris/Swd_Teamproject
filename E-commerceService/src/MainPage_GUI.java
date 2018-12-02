@@ -1,5 +1,7 @@
-
-
+import com.sun.codemodel.internal.JOp;
+import jdk.nashorn.internal.scripts.JO;
+import Database.DataBase_op;
+import Database.DataBase_Con;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class MainPage_GUI extends JFrame implements ActionListener {
-    String log = "Log In";
     private int goodsNumber;
     private JPanel mainPanel;
 
@@ -28,14 +29,19 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private JButton search = new JButton("Search");
 
 
-    private JButton logIn = new JButton(log);
+    private JButton logIn;
     private JButton sell = new JButton("sell");
     private JButton myChart = new JButton("My Chart");
 
+    private DataBase_Con myDB = new DataBase_Con();
+    public DataBase_op myOpr=new DataBase_op(myDB);
 
 
-    MainPage_GUI(){
+
+    MainPage_GUI(int userIndex){
         super("Main Page");
+        String log = logInOrNot(userIndex);
+        logIn = new JButton(log);
         goodsNumber = 10;
         mainPanel = new JPanel(new GridLayout(goodsNumber+3,1));
         goodsName = new JLabel[goodsNumber];
@@ -58,7 +64,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         JScrollPane scroll = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.add(scroll);
         this.setVisible(true);
-        this.setSize(800,500);
+        this.setSize(1200,500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     private void initialMainPage(int n){
@@ -101,7 +107,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
 
     public static void main(String[] args){
-        new MainPage_GUI();
+        new MainPage_GUI(1);
     }
 
 
@@ -120,6 +126,18 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         logInPanel.add(logIn);
         //logIn.setHorizontalAlignment(JButton.RIGHT);
         mainPanel.add(logInPanel);
+    }
+
+    private String logInOrNot(int userIndex){
+        if(userIndex == -1){
+            System.out.println(userIndex);
+            System.out.println("Log In");
+            return "Log In";
+        }else{
+            System.out.println(userIndex);
+            System.out.println("lalala");
+            return myOpr.getUserName(userIndex);
+        }
     }
 
     private void addSearchBar(){
@@ -155,8 +173,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     private BufferedImage setIcon(){
         try {
-            BufferedImage picture = ImageIO.read(getClass().getResource("picture.jpg"));
-            return picture;
+            return ImageIO.read(getClass().getResource("picture.jpg"));
         } catch (IOException e) {
             throw new IllegalArgumentException("Can not read image");
         }
@@ -174,7 +191,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             Cart_GUI cart_gui = new Cart_GUI(goodsNumber);
             cart_gui.setSize(600,400);
             cart_gui.setVisible(true);
-            cart_gui.setResizable(true);
+            cart_gui.setResizable(false);
         }else if ((e.getSource() == search)){
             int check = 0;
             mainPanel.removeAll();

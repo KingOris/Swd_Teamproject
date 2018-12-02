@@ -2,6 +2,7 @@ package Database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataBase_op {
@@ -60,11 +61,11 @@ public class DataBase_op {
 
     public void insertData(String Idn, String userPo, String emailAa, String phon, String user_te){
         try{
-            String newType1=new String(Idn.getBytes(),"GBK");
-            String newType2=new String(userPo.getBytes(),"GBK");
-            String newType3=new String(emailAa.getBytes(),"GBK");
-            String newType4=new String(phon.getBytes(),"GBK");
-            String newType5=new String(user_te.getBytes(),"GBK");
+            String newType1=new String(Idn.getBytes());
+            String newType2=new String(userPo.getBytes());
+            String newType3=new String(emailAa.getBytes());
+            String newType4=new String(phon.getBytes());
+            String newType5=new String(user_te.getBytes());
 
             String sql = "INSERT INTO user_information(userId,user_password,emailAdd,phone ,user_type)VALUES("+"'" + newType1+ "'"+",'"+newType2+"','"+newType3+"','"+newType4+"','"+newType5+"')";
             System.out.println(sql);
@@ -79,5 +80,19 @@ public class DataBase_op {
     }
     public void setNumber2(){
         count=0;
+    }
+
+    public String getUserName(int userInd){
+        String name = "SELECT userId FROM user_information WHERE user_index = ("+"'" + userInd + "'"+ ")";
+        try {
+            System.out.println("Trying");
+            ResultSet rs = stmt.executeQuery(name);
+            if(rs.next()) {
+                return rs.getString("userId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return"Log In";
     }
 }
