@@ -26,11 +26,14 @@ public class Cart_GUI extends JFrame {
     private ArrayList<Integer> removeNum;
     private JPanel totalPanel;
     private JButton buy;
+    private JLabel[] time;
+    private JPanel all;
 
 
     //public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout) {
     public Cart_GUI(int goodsNumber) {
-        super("Cart");
+        super();
+        setTitle("Cart");
         this.goodsNumber = goodsNumber;
         mainPanel = new JPanel(new GridLayout(this.goodsNumber + 2, 1, 1, 6));
         panel = new JPanel[this.goodsNumber];
@@ -46,8 +49,8 @@ public class Cart_GUI extends JFrame {
         totalPrice = new BigDecimal("0");
         removeNum = new ArrayList<>();
         buy = new JButton("Buy");
-
-
+        time = new JLabel[this.goodsNumber];
+        all = new JPanel(new GridLayout(3,1));
         setTitle();
 
         CheckAll action = new CheckAll();
@@ -59,21 +62,17 @@ public class Cart_GUI extends JFrame {
 
         for (int i = 0; i < this.goodsNumber; i++) {
             //setItempanel(name.get(i),price.get(i),amout.get(i),i);
-            setItempanel("name", "100", 10, i);
+            setItempanel("name", "100", 10, i,"1996-12-13");
         }
-
-
 
         totalAmount.setText(totalPrice.toString());
 
         totalPanel = new JPanel();
+        all.add(mainPanel);
         setTotalPanel();
-
-        add(mainPanel);
         JScrollPane scroll = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        add(scroll);
-
-
+        all.add(scroll);
+        all.add(totalPanel);add(all);
     }
 
     private void setTitle(){
@@ -84,24 +83,28 @@ public class Cart_GUI extends JFrame {
         JLabel amount = new JLabel("Amount");
         amount.setHorizontalAlignment(JLabel.LEFT);
         JLabel mark = new JLabel("Mark");
-        amount.setHorizontalAlignment(JLabel.LEFT);
-        JPanel title = new JPanel(new GridLayout(1, 4));
+        mark.setHorizontalAlignment(JLabel.LEFT);
+        JLabel date = new JLabel("Date");
+        date.setHorizontalAlignment(JLabel.LEFT);
+        JPanel title = new JPanel(new GridLayout(1, 5));
         title.add(Name);
         title.add(price);
         title.add(amount);
         title.add(mark);
-        mainPanel.add(title);
+        title.add(date);
+        all.add(title);
     }
 
-    public void setItempanel(String itemname, String itemprice, int amount, int i) {
+    public void setItempanel(String itemname, String itemprice, int amount, int i, String tim) {
         goodsName[i] = new JLabel(itemname);
         goodsPrice[i] = new JLabel(itemprice);
         goodsQuality[i] = new JLabel("" + amount);
         goodsBuy[i] = new JCheckBox("", true);
         CheckBoxHandler handler = new CheckBoxHandler();
         goodsBuy[i].addItemListener(handler);
+        time[i] = new JLabel(tim);
 
-        panel[i] = new JPanel(new GridLayout(1, 4));
+        panel[i] = new JPanel(new GridLayout(1, 5));
 
         if (goodsBuy[i].isSelected()) {
             BigDecimal ppp = new BigDecimal(goodsPrice[i].getText());
@@ -112,6 +115,7 @@ public class Cart_GUI extends JFrame {
         panel[i].add(goodsPrice[i]);
         panel[i].add(goodsQuality[i]);
         panel[i].add(goodsBuy[i]);
+        panel[i].add(time[i]);
         mainPanel.add(panel[i]);
     }
 
@@ -169,9 +173,11 @@ public class Cart_GUI extends JFrame {
         totalPanel.add(markAll);
         totalPanel.add(remove);
         totalPanel.add(buy);
-        mainPanel.add(totalPanel);
     }
 
+    public void removeBuy(){
+        totalPanel.remove(buy);
+    }
     public ArrayList<Integer> getRemoveNum(){
         return removeNum;
     }

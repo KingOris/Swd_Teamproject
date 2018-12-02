@@ -1,17 +1,14 @@
-
-
 import javax.swing.*;
 
-
-public class OrderHistory_GUI extends Cart_GUI {
-    public OrderHistory_GUI(int goodsNumber) {
+public class Seller_GUI extends Cart_GUI {
+    public Seller_GUI(int goodsNumber) {
         super(goodsNumber);
-        setTitle("Order History");
+        setTitle("Seller");
         removeBuy();
     }
 
     public static void main(String[] args){
-        OrderHistory_GUI cart_gui = new OrderHistory_GUI(10);
+        Seller_GUI cart_gui = new Seller_GUI(10);
         cart_gui.setSize(600,400);
         cart_gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cart_gui.setResizable(true);
