@@ -209,24 +209,14 @@ public class DataBase_op {
 
 
 
-    public Image getImage(int goodID){
+    public byte[] getImage(int goodID){
         int goodID2 = goodID+1;
-
-
-
         String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + 2 + "'"+ ")";
-        PreparedStatement statement;
-        ResultSet resultSet;
         try {
-            statement = conn.prepareStatement(cmd);
-            resultSet = statement.executeQuery();
-            byte[] image = null;
-            while(resultSet.next()){
-                image = resultSet.getBytes("item_image");
-                return Toolkit.getDefaultToolkit().createImage(image);
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                return rs.getBytes("item_image");
             }
-            //System.out.println(Toolkit.getDefaultToolkit().createImage(image));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
