@@ -21,6 +21,7 @@ public class Selling_GUI extends JFrame {
     private BigDecimal pr;
     private int numberofitem;
     BufferedImage bufferedImage;
+    private JLabel image;
 
     public Selling_GUI(){
         super("Register Item");
@@ -37,27 +38,33 @@ public class Selling_GUI extends JFrame {
         register = new JButton("Register");
         readImage = new JButton("Submit Image");
         nametext = new String();
+        image = new JLabel();
         numberofitem = 0;
+
 
         JLabel block = new JLabel();
 
         //name.setFont(new Font(null,Font.PLAIN,30));
         //priceL.setFont(new Font(null,Font.PLAIN,30));
         //number.setFont(new Font(null,Font.PLAIN,30));
-        panel.setLayout(new GridLayout(0,2,10,10));
+        panel.setLayout(new GridLayout(0,3,10,10));
 
         ButtonHandler handler = new ButtonHandler();
         ReadHandler readHandler = new ReadHandler();
 
+        panel.add(block);
         panel.add(name);
         panel.add(itemname);
 
+        panel.add(image);
         panel.add(priceL);
         panel.add(price);
 
+        panel.add(new JLabel());
         panel.add(number);
         panel.add(num);
 
+        panel.add(new JLabel());
         panel.add(readImage);
         register.addActionListener(handler);
         panel.add(register);
@@ -102,6 +109,8 @@ public class Selling_GUI extends JFrame {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+
+            image.setIcon(new ImageIcon(bufferedImage));
         }
     }
 
