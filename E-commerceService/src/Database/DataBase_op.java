@@ -1,9 +1,13 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Arrays;
 
 public class DataBase_op {
     private DataBase_Con myDB=null;
@@ -116,5 +120,25 @@ public class DataBase_op {
         String cmd = "INSERT INTO item(item_name,item_amount,emailAdd,phone ,user_type)VALUES("+"'" + newType1+ "'"+",'"+newType2+"','"+newType3+"','"+newType4+"','"+newType5+"')";
     }*/
 
+    public Image getImage(int goodID){
 
+        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + goodID + "'"+ ")";
+        PreparedStatement statement;
+        ResultSet resultSet;
+        try {
+            statement = conn.prepareStatement(cmd);
+            resultSet = statement.executeQuery();
+            byte[] image = null;
+            while(resultSet.next()){
+                image = resultSet.getBytes("item_image");
+            }
+            System.out.println(Toolkit.getDefaultToolkit().createImage(image));
+            return Toolkit.getDefaultToolkit().createImage(image);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //public
 }
