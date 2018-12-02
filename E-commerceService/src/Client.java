@@ -36,6 +36,10 @@ public class Client extends JFrame {
             client = new Socket(InetAddress.getByName(host), PORT);//set up output stream for objects
             result.append("Connected to: " + client.getInetAddress().getHostName());
             getStreams();
+            MainPage_GUI mainPage_gui = new MainPage_GUI();
+            mainPage_gui.showMain(-1);
+
+
             do
             {
                 try

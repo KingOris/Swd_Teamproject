@@ -2,12 +2,16 @@
 import Database.DataBase_op;
 import Database.DataBase_Con;
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
 
@@ -82,10 +86,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     }
     private void initialMainPage(int n){
         for(int i =0; i< n; i++){
-
             ImageIcon goodIcon = new ImageIcon(myOpr.getImage(i));
             //ImageIcon goodIcon = new ImageIcon(setIcon());
             Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
+            //icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i].setHorizontalAlignment(JLabel.CENTER);
             goodsName[i] = new JLabel();
