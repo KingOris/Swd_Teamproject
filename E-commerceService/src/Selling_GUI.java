@@ -47,18 +47,21 @@ public class Selling_GUI extends JFrame {
         ButtonHandler handler = new ButtonHandler();
         ReadHandler readHandler = new ReadHandler();
 
-        panel.add(image,setGridBagConstraints(1,4,1,1));
-        panel.add(name,setGridBagConstraints(1,1,1,1));
-        panel.add(itemname,setGridBagConstraints(0,1,1,1));
-        panel.add(priceL,setGridBagConstraints(1,1,1,1));
-        panel.add(price,setGridBagConstraints(0,1,1,1));
+        JPanel newpanel = new JPanel(new GridLayout(4,2,10,10));
 
-        panel.add(number,setGridBagConstraints(1,1,1,1));
-        panel.add(num,setGridBagConstraints(0,1,1,1));
+        panel.add(image,setGridBagConstraints(1,4,1,1,0));
+        newpanel.add(name);
+        newpanel.add(itemname);
+        newpanel.add(priceL);
+        newpanel.add(price);
 
-        panel.add(readImage,setGridBagConstraints(2,1,1,1));
+        newpanel.add(number);
+        newpanel.add(num);
+
+        panel.add(newpanel,setGridBagConstraints(0,3,1,1,1));
+        newpanel.add(readImage);
         register.addActionListener(handler);
-        panel.add(register,setGridBagConstraints(0,1,1,1));
+        newpanel.add(register);
         readImage.addActionListener(readHandler);
 
 
@@ -109,9 +112,15 @@ public class Selling_GUI extends JFrame {
         return bufferedImage;
     }
 
-    private GridBagConstraints setGridBagConstraints(int width,int height, int weightx, int weighty){
+    private GridBagConstraints setGridBagConstraints(int width,int height, int weightx, int weighty, int num){
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        if(num == 0){
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
+        }else if(num == 1){
+            gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        }else {
+            gridBagConstraints.fill = GridBagConstraints.VERTICAL;
+        }
         gridBagConstraints.gridwidth = width;
         gridBagConstraints.gridheight = height;
         gridBagConstraints.weightx = weightx;
