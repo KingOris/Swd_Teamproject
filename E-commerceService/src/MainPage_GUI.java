@@ -228,7 +228,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                     amount.add(myOpr.getItemAmount(item));
                     time.add("Not set yet");
                 }
-                Cart_GUI cart_gui = new Cart_GUI(items.size(),name,price,amount,time);
+                Cart_GUI cart_gui = new Cart_GUI(items.size(),name,price,amount,time,items);
                 cart_gui.setSize(600,400);
                 cart_gui.setVisible(true);
                 cart_gui.setResizable(false);

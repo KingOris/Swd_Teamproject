@@ -33,10 +33,11 @@ public class Cart_GUI extends JFrame {
     private JPanel all;
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
+    private ArrayList<Integer> itemId;
 
 
 
-    public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout, ArrayList<String> time) {
+    public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout, ArrayList<String> time, ArrayList<Integer> itemId) {
     //public Cart_GUI(int goodsNumber) {
         super();
         setTitle("Cart");
@@ -58,6 +59,7 @@ public class Cart_GUI extends JFrame {
         buy = new JButton("Buy");
         this.time = new JLabel[this.goodsNumber];
         all = new JPanel(new GridLayout(3,1,10,10));
+        this.itemId = itemId;
         setTitle();
 
         CheckAll action = new CheckAll();
@@ -168,7 +170,7 @@ public class Cart_GUI extends JFrame {
 
             for (int i = 0; i < goodsNumber; i++) {
                 if (goodsBuy[i].isSelected()) {
-                    removeNum.add(i);
+                    removeNum.add(itemId.get(i));
                 }
         }
         myOpr.removeItem(removeNum);
