@@ -170,10 +170,12 @@ public class Cart_GUI extends JFrame {
 
             for (int i = 0; i < goodsNumber; i++) {
                 if (goodsBuy[i].isSelected()) {
+                    mainPanel.remove(panel[i]);
                     removeNum.add(itemId.get(i));
                 }
         }
         myOpr.removeItem(removeNum);
+            mainPanel.updateUI();
     }
     }
 
