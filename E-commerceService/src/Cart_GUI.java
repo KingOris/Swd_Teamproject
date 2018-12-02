@@ -31,6 +31,8 @@ public class Cart_GUI extends JFrame {
     private JButton buy;
     private JLabel[] time;
     private JPanel all;
+    private DataBase_Con myDB = new DataBase_Con();
+    private DataBase_op myOpr=new DataBase_op(myDB);
 
 
 
@@ -163,12 +165,13 @@ public class Cart_GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             for (int i = 0; i < goodsNumber; i++) {
-                if (!goodsBuy[i].isSelected()) {
+                if (goodsBuy[i].isSelected()) {
                     removeNum.add(i);
                 }
         }
-        System.out.print(removeNum);
+        myOpr.removeItem(removeNum);
     }
     }
 

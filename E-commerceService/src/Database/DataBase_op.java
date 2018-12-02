@@ -80,6 +80,19 @@ public class DataBase_op {
             e1.printStackTrace();
         }
     }
+    public void removeItem(ArrayList<Integer> index){
+        String cmd = "";
+        for(int i = 0; i < index.size(); i++){
+            cmd = "DELETE FROM item WHERE item_id ="+"'"+ index.get(i) + "'";
+        }
+
+        System.out.println(cmd);
+        try {
+            stmt.executeUpdate(cmd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void addItem(String itemName, int price, int amount, int sellerID, Blob image){
         String name = new String(itemName.getBytes());
         String cmd = "INSERT INTO item(item_name,item_amount,item_price,item_seller ,item_image)VALUES("+"'" + name+ "'"+",'"+price+"','"+amount+"','"+sellerID+"','"+image+"')";
@@ -90,6 +103,7 @@ public class DataBase_op {
             e.printStackTrace();
         }
     }
+
 
     public void addToChart(int userID, int itemID){
         String cmd = "INSERT INTO cart(buyerId,itemId)VALUES("+"'" + userID+ "'"+",'"+itemID+"')";
@@ -149,6 +163,8 @@ public class DataBase_op {
         }
         return "NO Name";
     }
+
+
 
     public String getItemPrice(int index){
         int ind = index+1;
