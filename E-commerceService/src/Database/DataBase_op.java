@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DataBase_op {
@@ -78,6 +79,135 @@ public class DataBase_op {
             e1.printStackTrace();
         }
     }
+    public void addItem(String itemName, int price, int amount, int sellerID, Blob image){
+        String name = new String(itemName.getBytes());
+        String cmd = "INSERT INTO item(item_name,item_amount,item_price,item_seller ,item_image)VALUES("+"'" + name+ "'"+",'"+price+"','"+amount+"','"+sellerID+"','"+image+"')";
+        System.out.println(cmd);
+        try {
+            stmt.executeQuery(cmd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addToChart(int userID, int itemID){
+        String cmd = "INSERT INTO cart(buyerId,itemId)VALUES("+"'" + userID+ "'"+",'"+itemID+"')";
+        System.out.println(cmd);
+        try {
+            stmt.executeUpdate(cmd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Integer> getCartItem(int userID){
+        System.out.println("Get Cart Item of " + userID);
+        String cmd = "SELECT itemId FROM cart WHERE buyerId = ("+"'" + userID + "'"+ ")";
+        ArrayList<Integer> itemID = new ArrayList<>();
+        int j = 0;
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            while(rs.next()){
+                j++;
+                itemID.add(rs.getInt("itemId"));
+                System.out.println("This is " + j);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for(int i = 0; i < itemID.size(); i++){
+            System.out.println("This is items " + itemID.get(i));
+        }
+        return itemID;
+    }
+
+    public int getItemId(String itemName){
+        String name = new String(itemName.getBytes());
+        String cmd = "SELECT item_id FROM item WHERE item_name = ("+"'" + name + "'"+ ")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            return rs.getInt("item_id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public String getItemName(int index){
+        String cmd = "SELECT item_name FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                System.out.println("Get name of item");
+                return rs.getString("item_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "NO Name";
+    }
+
+    public String getItemPrice(int index){
+        String cmd = "SELECT item_price FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                return rs.getString("item_price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+
+    public int getItemAmount(int index){
+        String cmd = "SELECT item_amount FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                return rs.getInt("item_amount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getItemSellerId(int index){
+        String cmd = "SELECT item_seller FROM item WHERE item_id = ("+"'" + index + "'"+ ")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                return rs.getInt("item_seller");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+
+    public Image getImage(int goodID){
+
+        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + goodID + "'"+ ")";
+        PreparedStatement statement;
+        ResultSet resultSet;
+        try {
+            statement = conn.prepareStatement(cmd);
+            resultSet = statement.executeQuery();
+            byte[] image = null;
+            while(resultSet.next()){
+                image = resultSet.getBytes("item_image");
+            }
+            System.out.println(Toolkit.getDefaultToolkit().createImage(image));
+            return Toolkit.getDefaultToolkit().createImage(image);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void setNumber1(){
         count=0;
@@ -116,29 +246,7 @@ public class DataBase_op {
         return -1;
     }
 
-    /*public void addItem(String itemName, int price, int amount){
-        String cmd = "INSERT INTO item(item_name,item_amount,emailAdd,phone ,user_type)VALUES("+"'" + newType1+ "'"+",'"+newType2+"','"+newType3+"','"+newType4+"','"+newType5+"')";
-    }*/
 
-    public Image getImage(int goodID){
-
-        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + goodID + "'"+ ")";
-        PreparedStatement statement;
-        ResultSet resultSet;
-        try {
-            statement = conn.prepareStatement(cmd);
-            resultSet = statement.executeQuery();
-            byte[] image = null;
-            while(resultSet.next()){
-                image = resultSet.getBytes("item_image");
-            }
-            System.out.println(Toolkit.getDefaultToolkit().createImage(image));
-            return Toolkit.getDefaultToolkit().createImage(image);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     //public
 }

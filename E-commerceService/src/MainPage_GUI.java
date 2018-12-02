@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainPage_GUI extends JFrame implements ActionListener {
     private int goodsNumber;
@@ -33,15 +34,28 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private JButton myChart = new JButton("My Chart");
 
     private DataBase_Con myDB = new DataBase_Con();
-    public DataBase_op myOpr=new DataBase_op(myDB);
+    private DataBase_op myOpr=new DataBase_op(myDB);
+
+    public int getUserIndex() {
+        return userIndex;
+    }
+
+    public void setUserIndex(int userIndex) {
+        this.userIndex = userIndex;
+    }
+
+    private int userIndex;
 
 
 
-    MainPage_GUI(int userIndex){
+    MainPage_GUI(){
         super("Main Page");
+    }
+
+    public void showMain(int userIndex){
         String log = logInOrNot(userIndex);
         logIn = new JButton(log);
-        goodsNumber = 10;
+        goodsNumber = 2;//the number should be the total amount of item +1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         mainPanel = new JPanel(new GridLayout(goodsNumber+3,1));
         goodsName = new JLabel[goodsNumber];
         goodsPrice = new JLabel[goodsNumber];
@@ -55,7 +69,6 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         myChart.addActionListener(this);
         sell.addActionListener(this);
         search.addActionListener(this);
-
         addLogIn();
         addSearchBar();
         addTittle();
@@ -67,16 +80,17 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     private void initialMainPage(int n){
-        for(int i =0; i< n; i++){
+        for(int i =1; i< n; i++){
 
-            ImageIcon goodIcon = new ImageIcon(myOpr.getImage(1));
+            //ImageIcon goodIcon = new ImageIcon(myOpr.getImage(1));
+            ImageIcon goodIcon = new ImageIcon(setIcon());
             Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
             icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i].setHorizontalAlignment(JLabel.CENTER);
-            goodsName[i] = new JLabel("This is " + i + "'st " + "product");
+            goodsName[i] = new JLabel(myOpr.getItemName(i));
             goodsName[i].setMaximumSize(new Dimension(100, 30));
-            goodsPrice[i]= new JLabel("The price is " + i);
-            goodsQuality[i] = new JLabel("The quality is" + i);
+            goodsPrice[i]= new JLabel(myOpr.getItemPrice(i));
+            goodsQuality[i] = new JLabel(Integer.toString(myOpr.getItemAmount(i)));
             detail[i] = new JButton("Detail");
             detail[i].setMaximumSize(new Dimension(10,20));
 
@@ -106,7 +120,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
 
     public static void main(String[] args){
-        new MainPage_GUI(-1);
+        MainPage_GUI trya = new MainPage_GUI();
+        trya.showMain(-1);
     }
 
 
@@ -170,10 +185,14 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         mainPanel.add(title);
     }
 
-    /*private BufferedImage setIcon(){
-        return ;
-        //return ImageIO.read(getClass().getResource("picture.jpg"));
-    }*/
+    private BufferedImage setIcon(){
+        try {
+            return ImageIO.read(getClass().getResource("picture.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -185,10 +204,27 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             log.setResizable(false);
 
         }else if(e.getSource() == myChart){
-            Cart_GUI cart_gui = new Cart_GUI(goodsNumber);
-            cart_gui.setSize(600,400);
-            cart_gui.setVisible(true);
-            cart_gui.setResizable(false);
+            Login_GUI logInInfo = new Login_GUI();
+            System.out.println("This is user ID in main" +userIndex);
+            if(userIndex == -1){
+                JOptionPane.showMessageDialog(null,"Please Log In");
+            }else{
+                ArrayList<Integer> items = myOpr.getCartItem(userIndex);
+                ArrayList<String> name = new ArrayList<>();
+                ArrayList<String> price = new ArrayList<>();
+                ArrayList<Integer> amount = new ArrayList<>();
+                ArrayList<String> time = new ArrayList<>();
+                for (Integer item : items) {
+                    name.add(myOpr.getItemName(item));
+                    price.add(myOpr.getItemPrice(item));
+                    amount.add(myOpr.getItemAmount(item));
+                    time.add("Not set yet");
+                }
+                Cart_GUI cart_gui = new Cart_GUI(items.size(),name,price,amount,time);
+                cart_gui.setSize(600,400);
+                cart_gui.setVisible(true);
+                cart_gui.setResizable(false);
+            }
         }else if ((e.getSource() == search)){
             int check = 0;
             mainPanel.removeAll();
@@ -221,6 +257,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else{
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
+                    myOpr.addToChart(userIndex,i);
                     JOptionPane.showMessageDialog(null, "item" + i + " was added to chart");
                 }else if(e.getSource() == contact[i]){
                     JOptionPane.showMessageDialog(null,"Contact " + i + " Server");

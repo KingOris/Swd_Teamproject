@@ -1,4 +1,4 @@
-import javax.swing.*;
+/*import javax.swing.*;
 
 public class Seller_GUI extends Cart_GUI {
     public Seller_GUI(int goodsNumber) {
@@ -14,4 +14,4 @@ public class Seller_GUI extends Cart_GUI {
         cart_gui.setResizable(true);
         cart_gui.setVisible(true);
     }
-}
+}*/

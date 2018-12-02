@@ -16,12 +16,11 @@ public class Login_GUI extends JFrame {
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
-    private int userIndex;
     DataBase_Con myDB = new DataBase_Con();
     public DataBase_op myOpr=new DataBase_op(myDB);
     public Login_GUI(){
         super("Log In");
-        userIndex = -1;
+        //userIndex = -1;
         JPanel mainPanel = new JPanel();
 
         JPanel panel = new JPanel();
@@ -47,7 +46,6 @@ public class Login_GUI extends JFrame {
         register.addActionListener(button);
         panel1.add(userlog);
         panel1.add(register);
-
         mainPanel.add(panel);
         mainPanel.add(panel2);
         mainPanel.add(panel1);
@@ -57,7 +55,8 @@ public class Login_GUI extends JFrame {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 System.out.println("Window Closed");
-                new MainPage_GUI(userIndex);
+                MainPage_GUI openMain = new MainPage_GUI();
+                openMain.showMain(myOpr.getUserIndex(idSave));
             }
         });
         add(mainPanel);
@@ -80,8 +79,11 @@ public class Login_GUI extends JFrame {
                 passSave = userPassword.getText();
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
-                        userIndex = myOpr.getUserIndex(idSave);
-                        MainPage_GUI lalal = new MainPage_GUI(userIndex);
+                        MainPage_GUI lalal = new MainPage_GUI();
+                        lalal.showMain(myOpr.getUserIndex(idSave));
+                        lalal.setUserIndex(myOpr.getUserIndex(idSave));
+                        System.out.println("This is user ID after log" + lalal.getUserIndex());
+
                         lalal.logIn.setEnabled(false);
                         dispose();
                         //setVisible(false);//登录成功则关闭界面

@@ -1,3 +1,6 @@
+import Database.DataBase_Con;
+import Database.DataBase_op;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,10 +33,12 @@ public class Cart_GUI extends JFrame {
     private JPanel all;
 
 
-    //public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout) {
-    public Cart_GUI(int goodsNumber) {
+
+    public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout, ArrayList<String> time) {
+    //public Cart_GUI(int goodsNumber) {
         super();
         setTitle("Cart");
+
         this.goodsNumber = goodsNumber;
         mainPanel = new JPanel(new GridLayout(this.goodsNumber + 2, 1, 1, 6));
         panel = new JPanel[this.goodsNumber];
@@ -49,7 +54,7 @@ public class Cart_GUI extends JFrame {
         totalPrice = new BigDecimal("0");
         removeNum = new ArrayList<>();
         buy = new JButton("Buy");
-        time = new JLabel[this.goodsNumber];
+        this.time = new JLabel[this.goodsNumber];
         all = new JPanel(new GridLayout(3,1,10,10));
         setTitle();
 
@@ -60,9 +65,10 @@ public class Cart_GUI extends JFrame {
         remove.addActionListener(removeHandler);
         buy.addActionListener(removeHandler);
 
-        for (int i = 0; i < this.goodsNumber; i++) {
-            //setItempanel(name.get(i),price.get(i),amout.get(i),i);
-            setItempanel("name", "100", 10, i,"1996-12-13");
+        for (int i = 0; i < goodsNumber; i++) {
+            setItempanel(name.get(i),price.get(i),amout.get(i),i, time.get(i));
+            //System.out.println("This is item" + items.get(i));
+            //setItempanel(myOpr.getItemName(items.get(i)), myOpr.getItemPrice(items.get(i)), myOpr.getItemAmount(items.get(i)), i,"1996-12-13");
         }
 
         totalAmount.setText(totalPrice.toString());

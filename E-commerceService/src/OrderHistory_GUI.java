@@ -1,11 +1,11 @@
 
 
-import javax.swing.*;
-
+/*import javax.swing.*;
 
 public class OrderHistory_GUI extends Cart_GUI {
+    private Login_GUI userLogInfo = new Login_GUI();
     public OrderHistory_GUI(int goodsNumber) {
-        super(goodsNumber);
+        super(goodsNumber,userLogInfo.getUserIndex());
         setTitle("Order History");
         removeBuy();
     }
@@ -17,4 +17,4 @@ public class OrderHistory_GUI extends Cart_GUI {
         cart_gui.setResizable(true);
         cart_gui.setVisible(true);
     }
-}
+}*/
