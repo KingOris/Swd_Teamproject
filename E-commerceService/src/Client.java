@@ -18,6 +18,12 @@ public class Client extends JFrame {
     private String message = "";
     private String host;
     private Socket client;
+
+
+
+
+
+
     private static final int PORT = 23555;
     public Client(String host){
         super("Client");
