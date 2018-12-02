@@ -83,10 +83,10 @@ public class DataBase_op {
     public void removeItem(ArrayList<Integer> index){
         String cmd = "";
         for(int i = 0; i < index.size(); i++){
-            cmd = "DELETE FROM item WHERE item_id ="+"'"+ index.get(i) + "'";
+            cmd = "DELETE FROM cart WHERE itemid ="+"'"+ index.get(i) + "'";
+            System.out.println(cmd);
         }
 
-        System.out.println(cmd);
         try {
             stmt.executeUpdate(cmd);
         } catch (SQLException e) {
@@ -211,7 +211,7 @@ public class DataBase_op {
 
     public byte[] getImage(int goodID){
         int goodID2 = goodID+1;
-        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + 2 + "'"+ ")";
+        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + goodID2 + "'"+ ")";
         try {
             ResultSet rs = stmt.executeQuery(cmd);
             if(rs.next()){
