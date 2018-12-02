@@ -211,6 +211,9 @@ public class DataBase_op {
 
     public Image getImage(int goodID){
         int goodID2 = goodID+1;
+
+
+
         String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + 2 + "'"+ ")";
         PreparedStatement statement;
         ResultSet resultSet;
