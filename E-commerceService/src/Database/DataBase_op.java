@@ -215,6 +215,7 @@ public class DataBase_op {
         try {
             ResultSet rs = stmt.executeQuery(cmd);
             if(rs.next()){
+                System.out.println("Image opening " + rs.getBytes("item_image"));
                 return rs.getBytes("item_image");
             }
         } catch (SQLException e) {
@@ -281,6 +282,20 @@ public class DataBase_op {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getGoodNum(){
+        int totalNum = 0;
+        String cmd = "SELECT item_id FROM item";
+        try {
+            ResultSet st = stmt.executeQuery(cmd);
+            while(st.next()){
+                totalNum++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalNum;
     }
 
 
