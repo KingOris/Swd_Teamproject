@@ -194,8 +194,8 @@ public class DataBase_op {
 
 
     public Image getImage(int goodID){
-
-        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + goodID + "'"+ ")";
+        int goodID2 = goodID+1;
+        String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + 2 + "'"+ ")";
         PreparedStatement statement;
         ResultSet resultSet;
         try {
@@ -204,9 +204,10 @@ public class DataBase_op {
             byte[] image = null;
             while(resultSet.next()){
                 image = resultSet.getBytes("item_image");
+                return Toolkit.getDefaultToolkit().createImage(image);
             }
-            System.out.println(Toolkit.getDefaultToolkit().createImage(image));
-            return Toolkit.getDefaultToolkit().createImage(image);
+            //System.out.println(Toolkit.getDefaultToolkit().createImage(image));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -251,16 +252,27 @@ public class DataBase_op {
         return -1;
     }
 
-    /*public void insertImage(BufferedImage image){
+    public void insertItem(String itemName, String itemPrice, int itemAmount, int sellerId, BufferedImage image){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        String name = new String(itemName.getBytes());
+        String price = new String(itemPrice.getBytes());
         try {
             ImageIO.write(image,"jpg", byteArrayOutputStream);
             byte[] imageByte = byteArrayOutputStream.toByteArray();
+            try {
+                Blob blob = conn.createBlob();
+                blob.setBytes(1,imageByte);
+                String cmd = "INSERT INTO item(item_name, item_amount, item_price, item_seller, item_image)" +
+                        "VALUES("+"'" + name+ "'"+","+"'"+itemAmount+"'" +", "+"'" +price+"'"+","+"'" + sellerId + "'"+", "+"'" +blob+"'"+")";
+                stmt.executeUpdate(cmd);
+                //stmt.executeQuery(cmd);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }*/
+    }
 
 
 

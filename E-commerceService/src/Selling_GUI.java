@@ -75,6 +75,8 @@ public class Selling_GUI extends JFrame {
             nametext = itemname.getText();
             pr = new BigDecimal(price.getText());
             numberofitem = Integer.parseInt(num.getText());
+            MainPage_GUI mainGUI = new MainPage_GUI();
+            mainGUI.uploadItems(nametext,pr.toString(),numberofitem,bufferedImage);
         }
     }
 
@@ -103,12 +105,11 @@ public class Selling_GUI extends JFrame {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-
             image.setIcon(new ImageIcon(bufferedImage.getScaledInstance(200,200,Image.SCALE_DEFAULT)));
         }
     }
 
-    private BufferedImage getBufferedImage(){
+    public BufferedImage getBufferedImage(){
         return bufferedImage;
     }
 
