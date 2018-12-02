@@ -27,14 +27,11 @@ public class Selling_GUI extends JFrame {
         super("Register Item");
         JPanel panel = new JPanel();
         name = new JLabel("Item Name");
-        name.setHorizontalAlignment(JLabel.RIGHT);
         priceL = new JLabel("Price");
-        priceL.setHorizontalAlignment(JLabel.RIGHT);
         number = new JLabel("The number of items");
-        number.setHorizontalAlignment(JLabel.RIGHT);
-        itemname = new JTextField(10);
-        price = new JTextField(10);
-        num = new JTextField(10);
+        itemname = new JTextField();
+        price = new JTextField();
+        num = new JTextField();
         register = new JButton("Register");
         readImage = new JButton("Submit Image");
         nametext = new String();
@@ -42,32 +39,26 @@ public class Selling_GUI extends JFrame {
         numberofitem = 0;
 
 
-        JLabel block = new JLabel();
-
         //name.setFont(new Font(null,Font.PLAIN,30));
         //priceL.setFont(new Font(null,Font.PLAIN,30));
         //number.setFont(new Font(null,Font.PLAIN,30));
-        panel.setLayout(new GridLayout(0,3,10,10));
+        panel.setLayout(new GridBagLayout());
 
         ButtonHandler handler = new ButtonHandler();
         ReadHandler readHandler = new ReadHandler();
 
-        panel.add(block);
-        panel.add(name);
-        panel.add(itemname);
+        panel.add(image,setGridBagConstraints(1,4,1,1));
+        panel.add(name,setGridBagConstraints(1,1,1,1));
+        panel.add(itemname,setGridBagConstraints(0,1,1,1));
+        panel.add(priceL,setGridBagConstraints(1,1,1,1));
+        panel.add(price,setGridBagConstraints(0,1,1,1));
 
-        panel.add(image);
-        panel.add(priceL);
-        panel.add(price);
+        panel.add(number,setGridBagConstraints(1,1,1,1));
+        panel.add(num,setGridBagConstraints(0,1,1,1));
 
-        panel.add(new JLabel());
-        panel.add(number);
-        panel.add(num);
-
-        panel.add(new JLabel());
-        panel.add(readImage);
+        panel.add(readImage,setGridBagConstraints(2,1,1,1));
         register.addActionListener(handler);
-        panel.add(register);
+        panel.add(register,setGridBagConstraints(0,1,1,1));
         readImage.addActionListener(readHandler);
 
 
@@ -110,17 +101,27 @@ public class Selling_GUI extends JFrame {
                 e1.printStackTrace();
             }
 
-            image.setIcon(new ImageIcon(bufferedImage));
+            image.setIcon(new ImageIcon(bufferedImage.getScaledInstance(200,200,Image.SCALE_DEFAULT)));
         }
     }
 
     private BufferedImage getBufferedImage(){
         return bufferedImage;
     }
+
+    private GridBagConstraints setGridBagConstraints(int width,int height, int weightx, int weighty){
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridwidth = width;
+        gridBagConstraints.gridheight = height;
+        gridBagConstraints.weightx = weightx;
+        gridBagConstraints.weighty = weighty;
+        return gridBagConstraints;
+    }
     public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
 
-        sell.setSize(500,150);
+        sell.setSize(500,500);
         sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         sell.setResizable(true);
         sell.setVisible(true);
