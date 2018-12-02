@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 public class Selling_GUI extends JFrame {
@@ -12,9 +16,11 @@ public class Selling_GUI extends JFrame {
     private JLabel name;
     private JLabel priceL;
     private JLabel number;
+    private JButton readImage;
     private String nametext;
     private BigDecimal pr;
     private int numberofitem;
+    BufferedImage bufferedImage;
 
     public Selling_GUI(){
         super("Register Item");
@@ -29,6 +35,7 @@ public class Selling_GUI extends JFrame {
         price = new JTextField(10);
         num = new JTextField(10);
         register = new JButton("Register");
+        readImage = new JButton("Submit Image");
         nametext = new String();
         numberofitem = 0;
 
@@ -40,7 +47,7 @@ public class Selling_GUI extends JFrame {
         panel.setLayout(new GridLayout(0,2,10,10));
 
         ButtonHandler handler = new ButtonHandler();
-
+        ReadHandler readHandler = new ReadHandler();
 
         panel.add(name);
         panel.add(itemname);
@@ -51,9 +58,11 @@ public class Selling_GUI extends JFrame {
         panel.add(number);
         panel.add(num);
 
-        panel.add(block);
+        panel.add(readImage);
         register.addActionListener(handler);
         panel.add(register);
+        readImage.addActionListener(readHandler);
+
 
         add(panel);
     }
@@ -79,12 +88,32 @@ public class Selling_GUI extends JFrame {
     public String getNametext(){
         return nametext;
     }
-    /*public static void main(String args[]){
+
+    private class ReadHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            fileChooser.showDialog(new JLabel(),"Choose image");
+            File file = fileChooser.getSelectedFile();
+            try {
+                bufferedImage = ImageIO.read(file);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    private BufferedImage getBufferedImage(){
+        return bufferedImage;
+    }
+    public static void main(String args[]){
         Selling_GUI sell = new Selling_GUI();
 
         sell.setSize(500,150);
         sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         sell.setResizable(true);
         sell.setVisible(true);
-    }*/
+    }
 }
