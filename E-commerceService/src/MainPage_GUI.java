@@ -1,5 +1,4 @@
-import com.sun.codemodel.internal.JOp;
-import jdk.nashorn.internal.scripts.JO;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -175,7 +174,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             Cart_GUI cart_gui = new Cart_GUI(goodsNumber);
             cart_gui.setSize(600,400);
             cart_gui.setVisible(true);
-            cart_gui.setResizable(false);
+            cart_gui.setResizable(true);
         }else if ((e.getSource() == search)){
             int check = 0;
             mainPanel.removeAll();
