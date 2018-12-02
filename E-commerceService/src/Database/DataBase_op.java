@@ -95,4 +95,26 @@ public class DataBase_op {
         }
         return"Log In";
     }
+
+    public int getUserIndex(String userId){
+        String userName=new String(userId.getBytes());
+        String name = "SELECT user_Index FROM user_information WHERE userId = ("+"'" + userName + "'"+ ")";
+        try {
+            ResultSet rs = stmt.executeQuery(name);
+            //System.out.println("This is what in DB "+ rs.getInt("user_index"));
+            if(rs.next()) {
+                System.out.println("This is what in DB "+ rs.getInt("user_index"));
+                return rs.getInt("user_index");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /*public void addItem(String itemName, int price, int amount){
+        String cmd = "INSERT INTO item(item_name,item_amount,emailAdd,phone ,user_type)VALUES("+"'" + newType1+ "'"+",'"+newType2+"','"+newType3+"','"+newType4+"','"+newType5+"')";
+    }*/
+
+
 }

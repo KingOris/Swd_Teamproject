@@ -29,7 +29,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private JButton search = new JButton("Search");
 
 
-    private JButton logIn;
+    public JButton logIn;
     private JButton sell = new JButton("sell");
     private JButton myChart = new JButton("My Chart");
 
@@ -107,7 +107,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
 
     public static void main(String[] args){
-        new MainPage_GUI(1);
+        new MainPage_GUI(-1);
     }
 
 
@@ -187,6 +187,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             log.setSize(400, 400);
             this.dispose();
             log.setResizable(false);
+
         }else if(e.getSource() == myChart){
             Cart_GUI cart_gui = new Cart_GUI(goodsNumber);
             cart_gui.setSize(600,400);
