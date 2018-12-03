@@ -1,6 +1,7 @@
 package Database;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -85,13 +86,13 @@ public class DataBase_op {
         for(int i = 0; i < index.size(); i++){
             cmd = "DELETE FROM cart WHERE itemid ="+"'"+ index.get(i) + "'";
             System.out.println(cmd);
+            try {
+                stmt.executeUpdate(cmd);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
-        try {
-            stmt.executeUpdate(cmd);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
     public void addItem(String itemName, int price, int amount, int sellerID, Blob image){
         String name = new String(itemName.getBytes());
@@ -277,10 +278,10 @@ public class DataBase_op {
                 stmt.executeUpdate(cmd);
                 //stmt.executeQuery(cmd);
             } catch (SQLException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Products Message Not Complete");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Products Message Not Complete");
         }
     }
 
@@ -296,6 +297,27 @@ public class DataBase_op {
             e.printStackTrace();
         }
         return totalNum;
+    }
+
+    public int couldSell(int index){
+        int index2 = index +1;
+        String cmd = "SELECT user_type FROM user_information WHERE userId = ("+"'" + index2+"'"+")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                switch (rs.getString("user_type")) {
+                    case "Seller":
+                        return 1;
+                    case "Buyer":
+                        return 2;
+                    case "Seller and Buyer":
+                        return 3;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 
