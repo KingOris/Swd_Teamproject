@@ -175,7 +175,7 @@ public class Cart_GUI extends JFrame {
                 }
         }
         myOpr.removeItem(removeNum);
-            mainPanel.updateUI();
+        mainPanel.updateUI();
     }
     }
 

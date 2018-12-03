@@ -71,7 +71,7 @@ public class Server extends JFrame {
                  start = true;
                  try {
                      getStreams();
-                     String message = "Connection " + count + " successful";
+                     String message = "Connection To" + count + " successful";
                      sendData(message); // send connection successful message
 
                      do // process messages sent from client
