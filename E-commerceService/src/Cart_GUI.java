@@ -3,10 +3,7 @@ import Database.DataBase_op;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
@@ -84,6 +81,17 @@ public class Cart_GUI extends JFrame {
         JScrollPane scroll = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         all.add(scroll);
         all.add(totalPanel);add(all);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                System.out.println("Window Closed");
+                MainPage_GUI openMain = new MainPage_GUI();
+                openMain.showMain(openMain.getUserIndex());
+                openMain.logIn.setEnabled(false);
+            }
+        });
     }
 
     private void setTitle(){

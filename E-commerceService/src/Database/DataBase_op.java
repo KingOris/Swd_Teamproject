@@ -1,5 +1,8 @@
 package Database;
 
+import com.sun.codemodel.internal.JOp;
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +51,7 @@ public class DataBase_op {
         }
         return false;
     }
+
     public boolean selectName(String mname){//查询id
         String sql="SELECT * FROM user_information";
         try{
@@ -81,6 +85,7 @@ public class DataBase_op {
             e1.printStackTrace();
         }
     }
+
     public void removeItem(ArrayList<Integer> index){
         String cmd = "";
         for(int i = 0; i < index.size(); i++){
@@ -94,6 +99,7 @@ public class DataBase_op {
         }
 
     }
+
     public void addItem(String itemName, int price, int amount, int sellerID, Blob image){
         String name = new String(itemName.getBytes());
         String cmd = "INSERT INTO item(item_name,item_amount,item_price,item_seller ,item_image)VALUES("+"'" + name+ "'"+",'"+price+"','"+amount+"','"+sellerID+"','"+image+"')";
@@ -104,7 +110,6 @@ public class DataBase_op {
             e.printStackTrace();
         }
     }
-
 
     public void addToChart(int userID, int itemID, int amount){
         String cmd = "INSERT INTO cart(buyerId,itemId,item_amount)VALUES("+"'" + userID+ "'"+",'"+itemID+"', "+"'" + amount+"'"+")";
@@ -149,7 +154,6 @@ public class DataBase_op {
         return 0;
     }
 
-
     public String getItemName(int index){
         int ind = index+1;
         String cmd = "SELECT item_name FROM item WHERE item_id = ("+"'" + ind + "'"+ ")";
@@ -164,8 +168,6 @@ public class DataBase_op {
         }
         return "NO Name";
     }
-
-
 
     public String getItemPrice(int index){
         int ind = index+1;
@@ -222,8 +224,6 @@ public class DataBase_op {
         return 0;
     }
 
-
-
     public byte[] getImage(int goodID){
         int goodID2 = goodID+1;
         String cmd = "SELECT item_image FROM item WHERE item_id = ("+"'" + goodID2 + "'"+ ")";
@@ -242,6 +242,7 @@ public class DataBase_op {
     public void setNumber1(){
         count=0;
     }
+
     public void setNumber2(){
         count=0;
     }
@@ -315,18 +316,22 @@ public class DataBase_op {
 
     public int couldSell(int index){
         int index2 = index +1;
-        String cmd = "SELECT user_type FROM user_information WHERE userId = ("+"'" + index2+"'"+")";
+        String cmd = "SELECT user_type FROM user_information WHERE user_index = ("+"'" + index+"'"+")";
+        System.out.println("========================"+cmd);
         try {
             ResultSet rs = stmt.executeQuery(cmd);
-            if(rs.next()){
-                switch (rs.getString("user_type")) {
-                    case "Seller":
-                        return 1;
-                    case "Buyer":
-                        return 2;
-                    case "Seller and Buyer":
-                        return 3;
-                }
+            System.out.println("========================"+rs.next());
+            System.out.println("=================="+rs.getString("user_type"));
+            switch (rs.getString("user_type")) {
+                case "Seller":
+                    System.out.println("Seller");
+                    return 1;
+                case "Buyer":
+                    System.out.println("Buyer");
+                    return 2;
+                case "Seller and Buyer":
+                    System.out.println("Both");
+                    return 3;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -345,12 +350,15 @@ public class DataBase_op {
             if(rs.next()){
                 int totalAmount = rs.getInt("item_amount");
                 restAmount = totalAmount - itemAmount;
+                if(restAmount<0){
+                    JOptionPane.showMessageDialog(null,"This product dos not have that much amount.");
+                    return;
+                }
                 System.out.println("This is what we rest " + restAmount);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         String cmd1 = "UPDATE item SET item_amount = ("+"'"+restAmount+"'"+") WHERE item_id = ("+"'"+itemId2+"'"+")";
         System.out.println(cmd1);
         try {
@@ -361,18 +369,19 @@ public class DataBase_op {
         System.out.println("---------------------------------------------------");
     }
 
-    public int getCartAmount(int index){
-        String cmd = "SELECT item_amount FROM cart WHERE itemId = ("+"'"+index+"'"+")";
+    public void addToPurchaseHistory(int user_id, int item_id, int amount, String date){
+        String nowDate = new String(date.getBytes());
+        String cmd = "INSERT INTO buy_history(user_id, item_id, amount, sell_date)VALUES("+"'"+user_id+"'"+","+"'"+item_id+"'"+","+"'"+amount+"'"+","+"'"+nowDate+"'"+")";
         try {
-            ResultSet rs = stmt.executeQuery(cmd);
-            if(rs.next()){
-                return rs.getInt("item_amount");
-            }
+            stmt.executeQuery(cmd);
+            System.out.println(cmd);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
     }
+
+
+
 
 
 
