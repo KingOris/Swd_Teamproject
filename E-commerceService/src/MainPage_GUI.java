@@ -302,12 +302,15 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Client application; // declare client application
-            application = new Client(""); // connect to localhost
+            application = new Client("127.0.0.1"); // connect to localhost
 
             application.setSize(600,600);
             application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            application.getInt(userIndex,chatSellerId);
+            application.getInt(userIndex,getChatSellerId());
             application.runClient();
+
+
+
         }
     }
 
