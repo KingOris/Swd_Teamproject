@@ -45,10 +45,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     }
 
     public void setUserIndex(int userIndex) {
-        MainPage_GUI.userIndex = userIndex;
+        this.userIndex = userIndex;
     }
 
-    private static int userIndex = -1;
+    private int userIndex = -1;
 
 
 
@@ -73,8 +73,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         myChart.addActionListener(this);
         sell.addActionListener(this);
         search.addActionListener(this);
-        startChat.addActionListener(this);
-        startChat.setEnabled(false);
+        startChat.addActionListener(new ButtonHandler());
         addLogIn();
         addSearchBar();
         addTittle();
@@ -223,8 +222,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else if(e.getSource() == myChart){
             Login_GUI logInInfo = new Login_GUI();
             System.out.println("This is user ID in main" +userIndex);
-            if(userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
-                JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
+            if(userIndex == -1){
+                JOptionPane.showMessageDialog(null,"Please Log In");
             }else{
                 ArrayList<Integer> items = myOpr.getCartItem(userIndex);
                 ArrayList<String> name = new ArrayList<>();
@@ -275,33 +274,19 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 sell.setResizable(true);
                 sell.setVisible(true);
             }
-        }else if(e.getSource() == startChat){
-
-
-
-
-
-
-
-
-
-
-
-
         }else {
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
-                    if(userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
-                        JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
+                    if(userIndex == -1){
+                        JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
                         myOpr.addToChart(userIndex,i,Integer.parseInt((String) addAmount[i].getSelectedItem()));
                         JOptionPane.showMessageDialog(null, "item was added to chart");
                     }
                 }else if(e.getSource() == contact[i]){
-                    if (userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
-                        JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
+                    if (userIndex == -1){
+                        JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
-                        startChat.setEnabled(true);
                         setChatSellerId(myOpr.getItemSellerId(i));
                     }
                 }/*else if (e.getSource() == addAmount[i]){
@@ -309,6 +294,20 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 }*/
 
             }
+        }
+    }
+
+    public class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Client application; // declare client application
+            application = new Client(""); // connect to localhost
+
+            application.setSize(600,600);
+            application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            application.getInt(userIndex,chatSellerId);
+            application.runClient();
         }
     }
 
