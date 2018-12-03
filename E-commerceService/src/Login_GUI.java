@@ -110,14 +110,6 @@ public class Login_GUI extends JFrame {
 
         add(mainPanel);
     }
-    public static void main(String args[]){
-        /*Login_GUI log = new Login_GUI();
-        log.setVisible(true);
-        log.setSize(400, 400);
-        log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        log.setResizable(false);*/
-    }
-
     public class ButtonHandler implements ActionListener{
 
         @Override
@@ -135,11 +127,11 @@ public class Login_GUI extends JFrame {
                         lalal.logIn.setEnabled(false);
                         dispose();
                         logIn = true;
-                        //setVisible(false);//登录成功则关闭界面
+
                     }else{
                         JOptionPane.showMessageDialog(null, "Password is wrong","Tip",2);
                         userPassword.setText("");
-                        myOpr.setNumber1();//密码错误将number置0
+                        myOpr.setNumber1();
                         myOpr.setNumber2();
                     }
                 }else{

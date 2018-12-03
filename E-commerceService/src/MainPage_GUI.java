@@ -51,13 +51,11 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     private static int userIndex = -1;
 
-
-
     MainPage_GUI(){
         super("Main Page");
     }
 
-    public void showMain(int userIndex){
+    public void showMain(int userIndex){//This method is used to generate main page for this program
         String log = logInOrNot(userIndex);
         logIn = new JButton(log);
         goodsNumber = myOpr.getGoodNum();
@@ -260,7 +258,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                     time.add(myOpr.getDateFromHistory(item));
                 }
                 OrderHistory_GUI history_gui = new OrderHistory_GUI(items.size(),name,price,amount,time,items);
-                history_gui.setSize(600,400);
+                history_gui.setSize(1000,800);
                 history_gui.setVisible(true);
                 history_gui.setResizable(false);
                 dispose();
