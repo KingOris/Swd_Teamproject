@@ -15,6 +15,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private int goodsNumber;
     private JPanel mainPanel;
 
+    private boolean logInSuc;
     // crate products detail panel
     private JLabel[] goodsName;
     private JLabel[] goodsPrice;
@@ -37,7 +38,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
 
-    private int chatSellerId;
+    private int chatSellerId = 0;
 
     public int getUserIndex() {
         return userIndex;
@@ -49,10 +50,14 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     private int userIndex = -1;
 
+    public boolean getLogInSec(){
+        return logInSuc;
+    }
 
 
     MainPage_GUI(){
         super("Main Page");
+        logInSuc = false;
     }
 
     public void showMain(int userIndex){
@@ -160,7 +165,9 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else{
             System.out.println(userIndex);
             System.out.println("lalala");
+            logInSuc = true;
             return myOpr.getUserName(userIndex);
+
         }
     }
 
@@ -284,9 +291,13 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null, "item was added to chart");
                     }
                 }else if(e.getSource() == contact[i]){
-                    if (userIndex == -1){
+                    if (userIndex == -10){
                         JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
+                        Client client = new Client("127.0.0.1");
+                        client.setSize(600,600);
+                        client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        client.runClient();
                         setChatSellerId(myOpr.getItemSellerId(i));
                     }
                 }/*else if (e.getSource() == addAmount[i]){

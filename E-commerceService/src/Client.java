@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,89 +6,176 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;  //client portion of a stream-socket conncetion between client and server
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client extends JFrame {
-    private JTextField input = new JTextField();
-    private JTextArea result = new JTextArea();
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
-    private String message = "";
-    private String host;
-    private Socket client;
+    private JTextField enterField; // enters information from user
+    private JTextArea displayArea; // display information to user
+    private ObjectOutputStream output; // output stream to server
+    private ObjectInputStream input; // input stream from server
+    private String message = ""; // message from server
+    private String chatServer; // host server for this application
+    private Socket client; // socket to communicate with server
 
-    private static final int PORT = 23000;
-    public Client(String host){
+    // initialize chatServer and set up GUI
+    public Client(String host) {
         super("Client");
-        this.host = host;        // set server to which this client connects
-        input.setEditable(true);
-        Handler handler = new Handler();
-        input.addActionListener(handler);
-        add(input, BorderLayout.NORTH);
-        add(new JScrollPane(result), BorderLayout.CENTER);
-        setVisible(true);
-    }
-    public void runClient(){
-        try{
-            result.append("Attempting connection\n");
-            client = new Socket(InetAddress.getByName(host), PORT);//set up output stream for objects
-            result.append("Connected to: " + client.getInetAddress().getHostName());
-            getStreams();
-            MainPage_GUI mainPage_gui = new MainPage_GUI();
-            mainPage_gui.showMain(-1);
 
+        chatServer = host; // set server to which this client connects
 
-            do
-            {
-                try
-                {
-                    message = (String) inputStream.readObject(); // read new message
-                    result.append("\n" + message); // display message
-                } catch (ClassNotFoundException classNotFoundException) {
-                    result.append("\nUnknown object type received");
-                }
+        enterField = new JTextField(); // create enterField
+        enterField.setEditable(false);
+        enterField.addActionListener(
+                new ActionListener() {
+                    // send message to server
+                    public void actionPerformed(ActionEvent event) {
+                        sendData(event.getActionCommand());
+                        enterField.setText("");
+                    } // end method actionPerformed
+                } // end anonymous inner class
+        ); // end call to addActionListener
 
-            } while (!message.equals("SERVER>>> TERMINATE"));
-        }catch (EOFException Exception){
-            result.append("\nClient terminated connection");
-        }catch (IOException ioException) {
+        add(enterField, BorderLayout.NORTH);
+
+        displayArea = new JTextArea(); // create displayArea
+        add(new JScrollPane(displayArea), BorderLayout.CENTER);
+
+        setSize(300, 150); // set size of window
+        setVisible(true); // show window
+    } // end Client constructor
+
+    // connect to server and process messages from server
+    public void runClient() {
+        try // connect to server, get streams, process connection
+        {
+            connectToServer(); // create a Socket to make connection
+            getStreams(); // get the input and output streams
+
+            processConnection(); // process connection
+        } // end try
+        catch (EOFException eofException) {
+            displayMessage("\nClient terminated connection");
+        } // end catch
+        catch (IOException ioException) {
             ioException.printStackTrace();
-        }finally {
-            result.append("\nClosing connection");
-            input.setEnabled(false);
-            result.setEnabled(false);
-            try {
-                client.close(); //close the output stream
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
+        } // end catch
+        finally {
+            closeConnection(); // close connection
+        } // end finally
+    } // end method runClient
 
-    }
-    public class Handler implements ActionListener{
+    // connect to server
+    private void connectToServer() throws IOException {
+        displayMessage("Attempting connection\n");
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try // try to send object to server
-            {
-                outputStream.writeObject(e.getActionCommand());
-                outputStream.flush(); // flush data to outputStream
-                result.append("\nCLIENT>>> " + e.getActionCommand());
-            } catch (IOException ioException) {
-                result.append("\nError writing object");
-            }
-            input.setText("");
-        }
-    }
+        // create Socket to make connection to server
+        client = new Socket(InetAddress.getByName(chatServer),23000);
 
+        // display connection information
+        displayMessage("Connected to: " +
+                client.getInetAddress().getHostName());
+    } // end method connectToServer
+
+    // get streams to send and receive data
     private void getStreams() throws IOException {
-        outputStream = new ObjectOutputStream(client.getOutputStream());
-        outputStream.flush();
-        inputStream = new ObjectInputStream(client.getInputStream());
+        // set up output stream for objects
+        output = new ObjectOutputStream(client.getOutputStream());
+        output.flush(); // flush output buffer to send header information
 
-        result.append("\nGot I/O streams\n");
-    }
+        // set up input stream for objects
+        input = new ObjectInputStream(client.getInputStream());
+        displayMessage("\nGot I/O streams\n");
+
+    } // end method getStreams
+
+    // process connection with server
+    private void processConnection() throws IOException {
+        // enable enterField so client user can send messages
+        setTextFieldEditable(true);
+
+        do // process messages sent from server
+        {
+            try // read message and display it
+            {
+                message = (String) input.readObject(); // read new message
+                displayMessage("\n" + message); // display message
+            } // end try
+            catch (ClassNotFoundException classNotFoundException) {
+                displayMessage("\nUnknown object type received");
+            } // end catch
+
+        } while (!message.equals("SERVER>>> TERMINATE"));
+    } // end method processConnection
+
+    // close streams and socket
+    private void closeConnection() {
+        displayMessage("\nClosing connection");
+        setTextFieldEditable(false); // disable enterField
+
+        try {
+            output.close(); // close output stream
+            input.close(); // close input stream
+            client.close(); // close socket
+        } // end try
+        catch (IOException ioException) {
+            ioException.printStackTrace();
+        } // end catch
+    } // end method closeConnection
+
+    // send message to server
+    private void sendData(String message) {
+        try // send object to server
+        {
+            output.writeObject("CLIENT>>> " + message);
+            output.flush(); // flush data to output
+            displayMessage("\nCLIENT>>> " + message);
+        } // end try
+        catch (IOException ioException) {
+            displayArea.append("\nError writing object");
+        } // end catch
+    } // end method sendData
+
+    // manipulates displayArea in the event-dispatch thread
+    private void displayMessage(final String messageToDisplay) {
+        SwingUtilities.invokeLater(
+                new Runnable() {
+                    public void run() // updates displayArea
+                    {
+                        displayArea.append(messageToDisplay);
+                    } // end method run
+                }  // end anonymous inner class
+        ); // end call to SwingUtilities.invokeLater
+    } // end method displayMessage
+
+    // manipulates enterField in the event-dispatch thread
+    private void setTextFieldEditable(final boolean editable) {
+        SwingUtilities.invokeLater(
+                new Runnable() {
+                    public void run() // sets enterField's editability
+                    {
+                        enterField.setEditable(editable);
+                    } // end method run
+                } // end anonymous inner class
+        ); // end call to SwingUtilities.invokeLater
+    } // end method setTextFieldEditable
+    // end class Client
+
+    /**************************************************************************
+     * (C) Copyright 1992-2012 by Deitel & Associates, Inc. and               *
+     * Pearson Education, Inc. All Rights Reserved.                           *
+     *                                                                        *
+     * DISCLAIMER: The authors and publisher of this book have used their     *
+     * best efforts in preparing the book. These efforts include the          *
+     * development, research, and testing of the theories and programs        *
+     * to determine their effectiveness. The authors and publisher make       *
+     * no warranty of any kind, expressed or implied, with regard to these    *
+     * programs or to the documentation contained in these books. The authors *
+     * and publisher shall not be liable in any event for incidental or       *
+     * consequential damages in connection with, or arising out of, the       *
+     * furnishing, performance, or use of these programs.                     *
+     *************************************************************************/
+
 
     public static void main(String[] args) {
         Client application; // declare client application
@@ -105,4 +191,3 @@ public class Client extends JFrame {
         application.runClient(); // run client application
     }
 }
-

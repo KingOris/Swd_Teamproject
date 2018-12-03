@@ -16,6 +16,7 @@ public class Login_GUI extends JFrame {
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
+    private boolean logIn;
     DataBase_Con myDB = new DataBase_Con();
     public DataBase_op myOpr=new DataBase_op(myDB);
     public Login_GUI(){
@@ -86,6 +87,7 @@ public class Login_GUI extends JFrame {
 
                         lalal.logIn.setEnabled(false);
                         dispose();
+                        logIn = true;
                         //setVisible(false);//登录成功则关闭界面
                     }else{
                         JOptionPane.showMessageDialog(null, "Password is wrong","Tip",2);

@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;  // Server portion of a client/server stream-socket connection
 import java.net.Socket;      // Server portion of a client/server stream-socket connection
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +17,7 @@ public class Server extends JFrame {
     private MultiSocket[] serverSockets;
     private int count = 0;
     private int nClientActive = 1;
+    private ArrayList<MultiSocket.Connect2Other> connect2Others;
 
     public Server(){
         super("Server");
@@ -114,6 +116,23 @@ public class Server extends JFrame {
         }
     }
 
+    private class Connect2Other {
+        private int userID;
+        private int socketID;
+
+        public Connect2Other(int a, int b) {
+            userID = a;
+            socketID = b;
+        }
+
+        public int getBuyerID(){
+            return userID;
+        }
+
+        public int getSellerID(){
+            return socketID;
+        }
+    }
         private void waitForConnection() throws IOException {
 
             displayArea.append("Waiting for connection" + count + "\n");
