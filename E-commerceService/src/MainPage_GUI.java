@@ -45,10 +45,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     }
 
     public void setUserIndex(int userIndex) {
-        this.userIndex = userIndex;
+        MainPage_GUI.userIndex = userIndex;
     }
 
-    private int userIndex = -1;
+    private static int userIndex = -1;
 
 
 
@@ -74,6 +74,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         sell.addActionListener(this);
         search.addActionListener(this);
         startChat.addActionListener(this);
+        startChat.setEnabled(false);
         addLogIn();
         addSearchBar();
         addTittle();
@@ -90,8 +91,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             for (int j = 0; j<=myOpr.getItemAmount(i); j++){
                 amounts.add(Integer.toString(j));
             }
-            ImageIcon goodIcon = new ImageIcon(myOpr.getImage(i));
-            //ImageIcon goodIcon = new ImageIcon(setIcon());
+            //ImageIcon goodIcon = new ImageIcon(myOpr.getImage(i));
+            ImageIcon goodIcon = new ImageIcon(setIcon());
             Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
             icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i].setHorizontalAlignment(JLabel.CENTER);
@@ -222,8 +223,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else if(e.getSource() == myChart){
             Login_GUI logInInfo = new Login_GUI();
             System.out.println("This is user ID in main" +userIndex);
-            if(userIndex == -1){
-                JOptionPane.showMessageDialog(null,"Please Log In");
+            if(userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
             }else{
                 ArrayList<Integer> items = myOpr.getCartItem(userIndex);
                 ArrayList<String> name = new ArrayList<>();
@@ -290,16 +291,17 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else {
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
-                    if(userIndex == -1){
-                        JOptionPane.showMessageDialog(null,"Please Log In First");
+                    if(userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                        JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
                     }else{
                         myOpr.addToChart(userIndex,i,Integer.parseInt((String) addAmount[i].getSelectedItem()));
                         JOptionPane.showMessageDialog(null, "item was added to chart");
                     }
                 }else if(e.getSource() == contact[i]){
-                    if (userIndex == -1){
-                        JOptionPane.showMessageDialog(null,"Please Log In First");
+                    if (userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                        JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
                     }else{
+                        startChat.setEnabled(true);
                         setChatSellerId(myOpr.getItemSellerId(i));
                     }
                 }/*else if (e.getSource() == addAmount[i]){
