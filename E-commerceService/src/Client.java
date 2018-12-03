@@ -87,16 +87,13 @@ public class Client extends JFrame {
         // set up input stream for objects
         input = new ObjectInputStream(client.getInputStream());
         displayMessage("\nGot I/O streams\n");
-
+        sendData("" + userID + "" + sellerID);
     } // end method getStreams
 
     // process connection with server
     private void processConnection() throws IOException {
         // enable enterField so client user can send messages
         setTextFieldEditable(true);
-
-        sendData("" + userID );
-        sendData("" + sellerID);
 
         do // process messages sent from server
         {

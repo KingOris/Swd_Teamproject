@@ -73,7 +73,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         myChart.addActionListener(this);
         sell.addActionListener(this);
         search.addActionListener(this);
-        startChat.addActionListener(this);
+        startChat.addActionListener(new ButtonHandler());
         addLogIn();
         addSearchBar();
         addTittle();
@@ -90,8 +90,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             for (int j = 0; j<=myOpr.getItemAmount(i); j++){
                 amounts.add(Integer.toString(j));
             }
-            ImageIcon goodIcon = new ImageIcon(myOpr.getImage(i));
-            //ImageIcon goodIcon = new ImageIcon(setIcon());
+            //ImageIcon goodIcon = new ImageIcon(myOpr.getImage(i));
+            ImageIcon goodIcon = new ImageIcon(setIcon());
             Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
             icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i].setHorizontalAlignment(JLabel.CENTER);
@@ -274,19 +274,6 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 sell.setResizable(true);
                 sell.setVisible(true);
             }
-        }else if(e.getSource() == startChat){
-
-
-
-
-
-
-
-
-
-
-
-
         }else {
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
@@ -307,6 +294,20 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 }*/
 
             }
+        }
+    }
+
+    public class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Client application; // declare client application
+            application = new Client("127.0.0.1"); // connect to localhost
+
+            application.setSize(600,600);
+            application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            application.getInt(userIndex,chatSellerId);
+            application.runClient();
         }
     }
 

@@ -18,10 +18,14 @@ public class Server extends JFrame {
     private int count = 0;
     private int nClientActive = 1;
     private ArrayList<MultiSocket.Connect2Other> connect2Others;
+    MultiSocket.Connect2Other connct2;
+    private boolean turn;
 
     public Server(){
         super("Server");
 
+        connect2Others = new ArrayList<>();
+        turn = false;
         serverSockets = new MultiSocket[100];
         executorService = Executors.newFixedThreadPool(100);
 
@@ -76,11 +80,27 @@ public class Server extends JFrame {
                      String message = "Connection To" + count + " successful";
                      sendData(message); // send connection successful message
 
+
+                     try {
+                         message = (String) input.readObject();
+                         String m1 = message.substring(10,11);
+                         //connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
+                         connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
+                         connct2 = new Connect2Other(Integer.parseInt(message.substring(10,11)),Integer.parseInt(message.substring(10,11)));
+                     } catch (ClassNotFoundException e) {
+                         e.printStackTrace();
+                     }
                      do // process messages sent from client
                      {
+
                          try // read message and display it
                          {
                              message = (String) input.readObject(); // read new message
+                             for(int i = 0; i < connect2Others.size(); i++){
+                                 if(connect2Others.get(i).getUserID() == connct2.getSocketID()){
+                                     serverSockets[i].sendData(message);
+                                 }
+                             }
                              displayArea.append("\n" + count + message); // display message
                          } // end try
                          catch (ClassNotFoundException classNotFoundException) {
@@ -125,11 +145,11 @@ public class Server extends JFrame {
             socketID = b;
         }
 
-        public int getBuyerID(){
+        public int getUserID(){
             return userID;
         }
 
-        public int getSellerID(){
+        public int getSocketID(){
             return socketID;
         }
     }
