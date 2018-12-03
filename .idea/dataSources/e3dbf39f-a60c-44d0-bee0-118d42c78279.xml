@@ -1548,9 +1548,9 @@
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="408" parent="326" name="sell_date">
+    <column id="408" parent="326" name="sell_data">
       <Position>4</Position>
-      <DataType>date|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="409" parent="327" name="buyerId">

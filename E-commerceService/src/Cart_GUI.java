@@ -5,19 +5,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 
 public class Cart_GUI extends JFrame {
-    private JPanel mainPanel;
+    JPanel mainPanel;
     private int goodsNumber;
     private JButton markAll;
-    private JButton remove;
-    private JCheckBox[] goodsBuy;
+    JButton remove;
+    JCheckBox[] goodsBuy;
     private JLabel[] goodsName;
     private JLabel[] goodsQuality;
-    private JPanel[] panel;
+    JPanel[] panel;
     private JLabel[] goodsPrice;
     private JLabel total;
     private JLabel totalAmount;
@@ -30,7 +33,8 @@ public class Cart_GUI extends JFrame {
     private JPanel all;
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
-    private ArrayList<Integer> itemId;
+    ArrayList<Integer> itemId;
+    private MainPage_GUI openMain = new MainPage_GUI();
 
 
 
@@ -87,7 +91,6 @@ public class Cart_GUI extends JFrame {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 System.out.println("Window Closed");
-                MainPage_GUI openMain = new MainPage_GUI();
                 openMain.showMain(openMain.getUserIndex());
                 openMain.logIn.setEnabled(false);
             }
@@ -127,7 +130,8 @@ public class Cart_GUI extends JFrame {
 
         if (goodsBuy[i].isSelected()) {
             BigDecimal ppp = new BigDecimal(goodsPrice[i].getText());
-            totalPrice = totalPrice.add(ppp);
+            int quantity = Integer.parseInt(goodsQuality[i].getText());
+            totalPrice = totalPrice.add(ppp.multiply(new BigDecimal(quantity)));
         }
 
         panel[i].add(goodsName[i]);
@@ -146,7 +150,8 @@ public class Cart_GUI extends JFrame {
             for (int i = 0; i < goodsNumber; i++) {
                 if (goodsBuy[i].isSelected()) {
                     BigDecimal ppp = new BigDecimal(goodsPrice[i].getText());
-                    totalPrice = totalPrice.add(ppp);
+                    int quantity = Integer.parseInt(goodsQuality[i].getText());
+                    totalPrice = totalPrice.add(ppp.multiply(new BigDecimal(quantity)));
                 } else {
                     check = false;
                 }
@@ -195,6 +200,10 @@ public class Cart_GUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             ArrayList<Integer> amount = new ArrayList<>();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime date = LocalDateTime.now();
+            String timeDate = dateTimeFormatter.format(date);
+            System.out.println("This is item id in chart" + itemId);
 
             for (int i = 0; i < goodsNumber; i++) {
                 if (goodsBuy[i].isSelected()) {
@@ -202,6 +211,7 @@ public class Cart_GUI extends JFrame {
                     mainPanel.remove(panel[i]);
                     removeNum.add(itemId.get(i));
                     amount.add(Integer.parseInt(goodsQuality[i].getText()));
+                    myOpr.addToPurchaseHistory(MainPage_GUI.getUserIndex(),itemId.get(i),Integer.parseInt(goodsQuality[i].getText()),timeDate);
                 }
             }
             for (int j = 0; j<removeNum.size(); j++) {
@@ -212,7 +222,7 @@ public class Cart_GUI extends JFrame {
             amount.clear();
             mainPanel.updateUI();
             System.out.println("==================================================");
-            JOptionPane.showMessageDialog(null,"Item purchased, Go Order History to View What You Brought");
+            JOptionPane.showMessageDialog(null,"Item purchased(if not exceed amount), Go Order History to View What You Brought");
         }
     }
 

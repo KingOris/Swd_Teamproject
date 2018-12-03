@@ -32,23 +32,24 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     public JButton logIn;
     private JButton sell = new JButton("sell");
-    private JButton myChart = new JButton("My Chart");
+    private JButton myChart = new JButton("My Cart");
     private JButton startChat = new JButton("Start Chat");
+    private JButton orderHistory = new JButton("Order History");
 
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
 
     private int chatSellerId;
 
-    public int getUserIndex() {
+    public static int getUserIndex() {
         return userIndex;
     }
 
-    public void setUserIndex(int userIndex) {
-        this.userIndex = userIndex;
+    public static void setUserIndex(int userIndex) {
+        MainPage_GUI.userIndex = userIndex;
     }
 
-    private int userIndex = -1;
+    private static int userIndex = -1;
 
 
 
@@ -73,6 +74,9 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         myChart.addActionListener(this);
         sell.addActionListener(this);
         search.addActionListener(this);
+        startChat.addActionListener(new ButtonHandler());
+        orderHistory.addActionListener(this);
+        startChat.setEnabled(false);
         addLogIn();
         addSearchBar();
         addTittle();
@@ -142,9 +146,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         logInPanel.add(sell);
         JLabel block1 =new JLabel();
         logInPanel.add(block1);
-        JLabel block2 =new JLabel();
-        logInPanel.add(block2);
         logInPanel.add(startChat);
+        logInPanel.add(orderHistory);
         logInPanel.add(myChart);
         //sell.setHorizontalAlignment(JButton.LEFT);
         logInPanel.add(logIn);
@@ -221,8 +224,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else if(e.getSource() == myChart){
             Login_GUI logInInfo = new Login_GUI();
             System.out.println("This is user ID in main" +userIndex);
-            if(userIndex == -1){
-                JOptionPane.showMessageDialog(null,"Please Log In");
+            if(userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
             }else{
                 ArrayList<Integer> items = myOpr.getCartItem(userIndex);
                 ArrayList<String> name = new ArrayList<>();
@@ -230,8 +233,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 ArrayList<Integer> amount = new ArrayList<>();
                 ArrayList<String> time = new ArrayList<>();
                 for (Integer item : items) {
-                    name.add(myOpr.getItemName(item));
-                    price.add(myOpr.getItemPrice(item));
+                    name.add(myOpr.getItemName(item-1));
+                    price.add(myOpr.getItemPrice(item-1));
                     amount.add(myOpr.getItemAmountInCart(item));
                     time.add("Not set yet");
                 }
@@ -239,6 +242,28 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 cart_gui.setSize(600,400);
                 cart_gui.setVisible(true);
                 cart_gui.setResizable(false);
+                dispose();
+            }
+        }else if(e.getSource() == orderHistory){
+            if(userIndex == -1 || myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                JOptionPane.showMessageDialog(null,"Seller or not log in is invalid");
+            }else {
+                ArrayList<Integer> items = myOpr.getItemIdForHistory(userIndex);
+                ArrayList<String> name = new ArrayList<>();
+                ArrayList<String> price = new ArrayList<>();
+                ArrayList<Integer> amount = new ArrayList<>();
+                ArrayList<String> time = new ArrayList<>();
+                for(Integer item : items){
+                    name.add(myOpr.getItemName(item));
+                    price.add(myOpr.getItemPrice(item));
+                    amount.add(myOpr.getAmountFromHistory(item));
+                    time.add(myOpr.getDateFromHistory(item));
+                }
+                OrderHistory_GUI history_gui = new OrderHistory_GUI(items.size(),name,price,amount,time,items);
+                history_gui.setSize(600,400);
+                history_gui.setVisible(true);
+                history_gui.setResizable(false);
+                dispose();
             }
         }else if ((e.getSource() == search)){
             int check = 0;
@@ -276,17 +301,18 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else {
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
-                    if(userIndex == -1){
-                        JOptionPane.showMessageDialog(null,"Please Log In First");
+                    if(userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                        JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
                     }else{
                         myOpr.addToChart(userIndex,i,Integer.parseInt((String) addAmount[i].getSelectedItem()));
                         JOptionPane.showMessageDialog(null, "item was added to chart");
                     }
                 }else if(e.getSource() == contact[i]){
-                    if (userIndex == -1){
-                        JOptionPane.showMessageDialog(null,"Please Log In First");
+                    if (userIndex == -1|| myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 1){
+                        JOptionPane.showMessageDialog(null,"Seller or not logged in is invalid");
                     }else{
                         setChatSellerId(myOpr.getItemSellerId(i));
+                        startChat.setEnabled(true);
                     }
                 }/*else if (e.getSource() == addAmount[i]){
                     JOptionPane.showMessageDialog(null, "Detail of " + i + " does not exist" );
@@ -296,6 +322,22 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }
     }
 
+    public class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Client application; // declare client application
+            application = new Client("127.0.0.1"); // connect to localhost
+
+            application.setSize(600,600);
+            //application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            application.getInt(userIndex,getChatSellerId());
+            application.runClient();
+
+
+
+        }
+    }
 
     public int getChatSellerId() {
         return chatSellerId;

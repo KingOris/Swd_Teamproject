@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +35,7 @@ public class Selling_GUI extends JFrame {
         price = new JTextField();
         num = new JTextField();
         register = new JButton("Register");
-        readImage = new JButton("Submit Image");
+        readImage = new JButton("Choose Image");
         nametext = new String();
         image = new JLabel();
         numberofitem = 0;
@@ -69,14 +71,17 @@ public class Selling_GUI extends JFrame {
     }
 
     private class ButtonHandler implements ActionListener{
-
         @Override
         public void actionPerformed(ActionEvent e) {
             nametext = itemname.getText();
             pr = new BigDecimal(price.getText());
             numberofitem = Integer.parseInt(num.getText());
             MainPage_GUI mainGUI = new MainPage_GUI();
-            mainGUI.uploadItems(nametext,pr.toString(),numberofitem,bufferedImage);
+            if(nametext == null || pr == null || numberofitem == 0){
+                JOptionPane.showMessageDialog(null,"Product Information are not complete and quantity can not be 0");
+            }else{
+                mainGUI.uploadItems(nametext,pr.toString(),numberofitem,bufferedImage);
+            }
         }
     }
 
@@ -127,13 +132,5 @@ public class Selling_GUI extends JFrame {
         gridBagConstraints.weightx = weightx;
         gridBagConstraints.weighty = weighty;
         return gridBagConstraints;
-    }
-    public static void main(String args[]){
-        Selling_GUI sell = new Selling_GUI();
-
-        sell.setSize(500,500);
-        sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        sell.setResizable(true);
-        sell.setVisible(true);
     }
 }

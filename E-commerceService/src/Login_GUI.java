@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Login_GUI extends JFrame{
+public class Login_GUI extends JFrame {
     private JLabel user = new JLabel("     ID:      ");
     private JLabel password = new JLabel("Password:");
     private JTextField userID = new JTextField();
     private JPasswordField userPassword = new JPasswordField();
-    JButton userlog = new JButton("Log In");
+     JButton userlog = new JButton("Log In");
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
@@ -22,7 +22,6 @@ public class Login_GUI extends JFrame{
     private JLabel seller = new JLabel("Seller ID");
     private JTextField sellerId = new JTextField();
     public ButtonHandler button;
-
     DataBase_Con myDB = new DataBase_Con();
     public DataBase_op myOpr=new DataBase_op(myDB);
     public Login_GUI(){
@@ -31,7 +30,6 @@ public class Login_GUI extends JFrame{
         JPanel mainPanel = new JPanel();
 
         set = false;
-
         JPanel panel = new JPanel();
         FlowLayout layout = new FlowLayout();
         panel.setLayout(layout);
@@ -49,7 +47,7 @@ public class Login_GUI extends JFrame{
         JPanel panel1 = new JPanel();
         panel1.setLayout(layout);
         userlog.setPreferredSize(new Dimension(140, 50));
-        button= new ButtonHandler();
+        ButtonHandler button= new ButtonHandler();
         userlog.addActionListener(button);
         register.setPreferredSize(new Dimension(140, 50));
         register.addActionListener(button);
@@ -58,7 +56,6 @@ public class Login_GUI extends JFrame{
         mainPanel.add(panel);
         mainPanel.add(panel2);
         mainPanel.add(panel1);
-
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -121,7 +118,6 @@ public class Login_GUI extends JFrame{
         log.setResizable(false);*/
     }
 
-
     public class ButtonHandler implements ActionListener{
 
         @Override
@@ -133,16 +129,10 @@ public class Login_GUI extends JFrame{
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
                         MainPage_GUI lalal = new MainPage_GUI();
-                        if(!set){
-                            lalal.setVisible(true);
-                            lalal.showMain(myOpr.getUserIndex(idSave));
-                            lalal.logIn.setEnabled(false);
-                        }else {
-                        lalal.setVisible(false);
-                    }
+                        lalal.showMain(myOpr.getUserIndex(idSave));
                         lalal.setUserIndex(myOpr.getUserIndex(idSave));
                         System.out.println("This is user ID after log" + lalal.getUserIndex());
-                        userId = lalal.getUserIndex();
+                        lalal.logIn.setEnabled(false);
                         dispose();
                         logIn = true;
                         //setVisible(false);//登录成功则关闭界面

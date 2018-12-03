@@ -1,8 +1,8 @@
-/*import javax.swing.*;
+/*import java.util.ArrayList;
 
 public class Seller_GUI extends Cart_GUI {
-    public Seller_GUI(int goodsNumber) {
-        super(goodsNumber);
+    public Seller_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout, ArrayList<String> time, ArrayList<Integer> itemId) {
+        super(goodsNumber,name, price, amout, time, itemId);
         setTitle("Seller");
         removeBuy();
     }
