@@ -12,7 +12,7 @@ public class Login_GUI extends JFrame{
     private JLabel password = new JLabel("Password:");
     private JTextField userID = new JTextField();
     private JPasswordField userPassword = new JPasswordField();
-    public JButton userlog = new JButton("Log In");
+    JButton userlog = new JButton("Log In");
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
@@ -21,6 +21,7 @@ public class Login_GUI extends JFrame{
     private int userId;
     private JLabel seller = new JLabel("Seller ID");
     private JTextField sellerId = new JTextField();
+    public ButtonHandler button;
 
     DataBase_Con myDB = new DataBase_Con();
     public DataBase_op myOpr=new DataBase_op(myDB);
@@ -48,7 +49,7 @@ public class Login_GUI extends JFrame{
         JPanel panel1 = new JPanel();
         panel1.setLayout(layout);
         userlog.setPreferredSize(new Dimension(140, 50));
-        ButtonHandler button= new ButtonHandler();
+        button= new ButtonHandler();
         userlog.addActionListener(button);
         register.setPreferredSize(new Dimension(140, 50));
         register.addActionListener(button);

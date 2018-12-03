@@ -19,7 +19,6 @@ public class Client extends JFrame {
     private Socket client; // socket to communicate with server
     private int userID;
     private int sellerID;
-    private JPanel mainPanel;
 
     // initialize chatServer and set up GUI
     public Client(String host) {
@@ -27,7 +26,6 @@ public class Client extends JFrame {
 
         chatServer = host; // set server to which this client connects
 
-        mainPanel = new JPanel();
         enterField = new JTextField(); // create enterField
         enterField.setEditable(false);
         enterField.addActionListener(
@@ -40,12 +38,11 @@ public class Client extends JFrame {
                 } // end anonymous inner class
         ); // end call to addActionListener
 
-        mainPanel.add(enterField, BorderLayout.NORTH);
+        add(enterField, BorderLayout.NORTH);
 
         displayArea = new JTextArea(); // create displayArea
-        mainPanel.add(new JScrollPane(displayArea), BorderLayout.CENTER);
+        add(new JScrollPane(displayArea), BorderLayout.CENTER);
 
-        add(mainPanel);
         setSize(600, 600); // set size of window
         setVisible(true); // show window
     } // end Client constructor
@@ -90,7 +87,6 @@ public class Client extends JFrame {
         // set up input stream for objects
         input = new ObjectInputStream(client.getInputStream());
         displayMessage("\nGot I/O streams\n");
-        sendData("" + userID + "" + sellerID);
     } // end method getStreams
 
     // process connection with server
@@ -130,6 +126,7 @@ public class Client extends JFrame {
     public void getInt(int a, int b){
         userID = a;
         sellerID = b;
+        sendData("" + userID + "" + sellerID);
     }
     // send message to server
     private void sendData(String message) {

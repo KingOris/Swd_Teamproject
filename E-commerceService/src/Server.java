@@ -95,8 +95,8 @@ public class Server extends JFrame {
                          message = (String) input.readObject();
                          displayMessage(message);
                          //connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
-                         connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
-                         connct2 = new Connect2Other(Integer.parseInt(message.substring(10,11)),Integer.parseInt(message.substring(11,12)));
+                        // connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
+                         //connct2 = new Connect2Other(Integer.parseInt(message.substring(10,11)),Integer.parseInt(message.substring(11,12)));
                          sendData(message.substring(9,10));
                      } catch (ClassNotFoundException e) {
                          e.printStackTrace();
