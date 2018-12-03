@@ -38,7 +38,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
 
-    private int chatSellerId = 0;
+    private int chatSellerId;
 
     public int getUserIndex() {
         return userIndex;
@@ -287,17 +287,13 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                     if(userIndex == -1){
                         JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
-                        myOpr.addToChart(userIndex,i);
+                            myOpr.addToChart(userIndex,i);
                         JOptionPane.showMessageDialog(null, "item was added to chart");
                     }
                 }else if(e.getSource() == contact[i]){
-                    if (userIndex == -10){
+                    if (userIndex == -1){
                         JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
-                        Client client = new Client("127.0.0.1");
-                        client.setSize(600,600);
-                        client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        client.runClient();
                         setChatSellerId(myOpr.getItemSellerId(i));
                     }
                 }/*else if (e.getSource() == addAmount[i]){

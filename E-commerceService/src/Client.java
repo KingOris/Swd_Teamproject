@@ -17,6 +17,8 @@ public class Client extends JFrame {
     private String message = ""; // message from server
     private String chatServer; // host server for this application
     private Socket client; // socket to communicate with server
+    private int userID;
+    private int sellerID;
 
     // initialize chatServer and set up GUI
     public Client(String host) {
@@ -51,7 +53,6 @@ public class Client extends JFrame {
         {
             connectToServer(); // create a Socket to make connection
             getStreams(); // get the input and output streams
-
             processConnection(); // process connection
         } // end try
         catch (EOFException eofException) {
@@ -94,6 +95,9 @@ public class Client extends JFrame {
         // enable enterField so client user can send messages
         setTextFieldEditable(true);
 
+        sendData("" + userID );
+        sendData("" + sellerID);
+
         do // process messages sent from server
         {
             try // read message and display it
@@ -123,6 +127,10 @@ public class Client extends JFrame {
         } // end catch
     } // end method closeConnection
 
+    public void getInt(int a, int b){
+        userID = a;
+        sellerID = b;
+    }
     // send message to server
     private void sendData(String message) {
         try // send object to server
