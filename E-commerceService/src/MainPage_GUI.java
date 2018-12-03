@@ -37,6 +37,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
 
+    private int chatSellerId;
+
     public int getUserIndex() {
         return userIndex;
     }
@@ -285,14 +287,21 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                     if (userIndex == -1){
                         JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
-
+                        setChatSellerId(myOpr.getItemSellerId(i));
                     }
-
                 }/*else if (e.getSource() == addAmount[i]){
                     JOptionPane.showMessageDialog(null, "Detail of " + i + " does not exist" );
                 }*/
 
             }
         }
+    }
+
+    public int getChatSellerId() {
+        return chatSellerId;
+    }
+
+    public void setChatSellerId(int chatSellerId) {
+        this.chatSellerId = chatSellerId;
     }
 }
