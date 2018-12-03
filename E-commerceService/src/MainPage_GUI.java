@@ -2,16 +2,12 @@
 import Database.DataBase_op;
 import Database.DataBase_Con;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
 
@@ -26,7 +22,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private JButton[] goodsBuy;
     private JPanel[] panel;
     private JButton[] contact;
-    private JButton[] detail;
+    private JComboBox[] addAmount;
     private JLabel[] icon;
 
 
@@ -40,6 +36,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
+
+    private int chatSellerId;
 
     public int getUserIndex() {
         return userIndex;
@@ -68,7 +66,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         goodsBuy =  new JButton[goodsNumber];
         panel = new JPanel[goodsNumber];
         contact = new JButton[goodsNumber];
-        detail = new JButton[goodsNumber];
+        addAmount = new JComboBox[goodsNumber];
         icon = new JLabel[goodsNumber];
         logIn.addActionListener(this);
         myChart.addActionListener(this);
@@ -86,10 +84,13 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     }
     private void initialMainPage(int n){
         for(int i =0; i< n; i++){
+            ArrayList<String> amounts = new ArrayList<>();
+            for (int j = 0; j<=myOpr.getItemAmount(i); j++){
+                amounts.add(Integer.toString(j));
+            }
             ImageIcon goodIcon = new ImageIcon(myOpr.getImage(i));
             //ImageIcon goodIcon = new ImageIcon(setIcon());
             Image resizedIcon = goodIcon.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
-            //icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i] = new JLabel(new ImageIcon(resizedIcon));
             icon[i].setHorizontalAlignment(JLabel.CENTER);
             goodsName[i] = new JLabel();
@@ -99,10 +100,11 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             goodsPrice[i].setText(myOpr.getItemPrice(i));
             goodsQuality[i] = new JLabel();
             goodsQuality[i].setText(Integer.toString(myOpr.getItemAmount(i)));
-            detail[i] = new JButton("Detail");
-            detail[i].setMaximumSize(new Dimension(10,20));
+            addAmount[i] = new JComboBox(amounts.toArray());
+            addAmount[i].setSelectedIndex(0);
+            //detail[i].setMaximumSize(new Dimension(10,20));
 
-            detail[i].addActionListener(this);
+            addAmount[i].addActionListener(this);
             goodsBuy[i] = new JButton("Add To Chart");
             goodsBuy[i].addActionListener(this);
             contact[i] = new JButton("Contact Seller");
@@ -115,7 +117,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             panel[i].add(goodsName[i]);
             panel[i].add(goodsPrice[i]);
             panel[i].add(goodsQuality[i]);
-            panel[i].add(detail[i]);
+            panel[i].add(addAmount[i]);
             panel[i].add(contact[i]);
             panel[i].add(goodsBuy[i]);
 
@@ -183,7 +185,8 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         price.setHorizontalAlignment(JLabel.LEFT);
         JLabel amount = new JLabel("Amount");
         amount.setHorizontalAlignment(JLabel.LEFT);
-        JLabel block = new JLabel();
+        JLabel block = new JLabel("Amount Needs");
+        block.setHorizontalAlignment(JLabel.LEFT);
         JLabel block1 = new JLabel();
         JLabel block2 = new JLabel();
         JPanel title = new JPanel(new GridLayout(1,7));
@@ -262,22 +265,43 @@ public class MainPage_GUI extends JFrame implements ActionListener {
             mainPanel.updateUI();
             //repaint();
         }else if(e.getSource() == sell){
-            Selling_GUI sell = new Selling_GUI();
-            sell.setSize(500,150);
-            sell.setResizable(true);
-            sell.setVisible(true);
+            if(userIndex == -1 || myOpr.couldSell(userIndex) == 0 || myOpr.couldSell(userIndex) == 2){
+                JOptionPane.showMessageDialog(null,"Buyer or not log in is invalid");
+            }else{
+                Selling_GUI sell = new Selling_GUI();
+                sell.setSize(500,150);
+                sell.setResizable(true);
+                sell.setVisible(true);
+            }
+
         }else{
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
-                    myOpr.addToChart(userIndex,i);
-                    JOptionPane.showMessageDialog(null, "item" + i + " was added to chart");
+                    if(userIndex == -1){
+                        JOptionPane.showMessageDialog(null,"Please Log In First");
+                    }else{
+                        myOpr.addToChart(userIndex,i);
+                        JOptionPane.showMessageDialog(null, "item was added to chart");
+                    }
                 }else if(e.getSource() == contact[i]){
-                    JOptionPane.showMessageDialog(null,"Contact " + i + " Server");
-                }else if (e.getSource() == detail[i]){
+                    if (userIndex == -1){
+                        JOptionPane.showMessageDialog(null,"Please Log In First");
+                    }else{
+                        setChatSellerId(myOpr.getItemSellerId(i));
+                    }
+                }/*else if (e.getSource() == addAmount[i]){
                     JOptionPane.showMessageDialog(null, "Detail of " + i + " does not exist" );
-                }
+                }*/
 
             }
         }
+    }
+
+    public int getChatSellerId() {
+        return chatSellerId;
+    }
+
+    public void setChatSellerId(int chatSellerId) {
+        this.chatSellerId = chatSellerId;
     }
 }
