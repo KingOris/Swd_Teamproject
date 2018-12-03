@@ -45,10 +45,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     }
 
     public void setUserIndex(int userIndex) {
-        MainPage_GUI.userIndex = userIndex;
+        this.userIndex = userIndex;
     }
 
-    private static int userIndex = -1;
+    private int userIndex = -1;
 
 
 

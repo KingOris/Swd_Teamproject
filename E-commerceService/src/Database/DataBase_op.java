@@ -1,30 +1,19 @@
 package Database;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DataBase_op {
     private DataBase_Con myDB=null;
-    private Connection conn=null;
+    private static Connection conn=null;
     private Statement stmt=null;
     private int count = 0;
     private int count1 = 0;
     private String id;
     private String password;
-    private String Id;
-    private String userP;
-    private String emailA;
-    private String pho;
-    private String user_t;
     public DataBase_op(DataBase_Con myDB){
         conn=myDB.getMyConnection();//取得对象
         stmt=myDB.getMyStatement();//取得sql语句
@@ -48,6 +37,7 @@ public class DataBase_op {
         }
         return false;
     }
+
     public boolean selectName(String mname){//查询id
         String sql="SELECT * FROM user_information";
         try{
