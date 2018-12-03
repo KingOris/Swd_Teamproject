@@ -57,7 +57,7 @@ public class Login_GUI extends JFrame {
                 super.windowClosing(e);
                 System.out.println("Window Closed");
                 MainPage_GUI openMain = new MainPage_GUI();
-                openMain.showMain(myOpr.getUserIndex(idSave));
+                openMain.showMain(-1);
             }
         });
         add(mainPanel);
@@ -84,7 +84,6 @@ public class Login_GUI extends JFrame {
                         lalal.showMain(myOpr.getUserIndex(idSave));
                         lalal.setUserIndex(myOpr.getUserIndex(idSave));
                         System.out.println("This is user ID after log" + lalal.getUserIndex());
-
                         lalal.logIn.setEnabled(false);
                         dispose();
                         logIn = true;

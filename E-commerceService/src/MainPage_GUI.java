@@ -15,7 +15,6 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     private int goodsNumber;
     private JPanel mainPanel;
 
-    private boolean logInSuc;
     // crate products detail panel
     private JLabel[] goodsName;
     private JLabel[] goodsPrice;
@@ -34,6 +33,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     public JButton logIn;
     private JButton sell = new JButton("sell");
     private JButton myChart = new JButton("My Chart");
+    private JButton startChat = new JButton("Start Chat");
 
     private DataBase_Con myDB = new DataBase_Con();
     private DataBase_op myOpr=new DataBase_op(myDB);
@@ -50,14 +50,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
 
     private int userIndex = -1;
 
-    public boolean getLogInSec(){
-        return logInSuc;
-    }
 
 
     MainPage_GUI(){
         super("Main Page");
-        logInSuc = false;
     }
 
     public void showMain(int userIndex){
@@ -77,6 +73,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         myChart.addActionListener(this);
         sell.addActionListener(this);
         search.addActionListener(this);
+        startChat.addActionListener(this);
         addLogIn();
         addSearchBar();
         addTittle();
@@ -148,8 +145,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         logInPanel.add(block1);
         JLabel block2 =new JLabel();
         logInPanel.add(block2);
-        JLabel block3 =new JLabel();
-        logInPanel.add(block3);
+        logInPanel.add(startChat);
         logInPanel.add(myChart);
         //sell.setHorizontalAlignment(JButton.LEFT);
         logInPanel.add(logIn);
@@ -165,9 +161,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }else{
             System.out.println(userIndex);
             System.out.println("lalala");
-            logInSuc = true;
             return myOpr.getUserName(userIndex);
-
         }
     }
 
@@ -239,7 +233,7 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 for (Integer item : items) {
                     name.add(myOpr.getItemName(item));
                     price.add(myOpr.getItemPrice(item));
-                    amount.add(myOpr.getItemAmount(item));
+                    amount.add(myOpr.getItemAmountInCart(item));
                     time.add("Not set yet");
                 }
                 Cart_GUI cart_gui = new Cart_GUI(items.size(),name,price,amount,time,items);
@@ -280,14 +274,26 @@ public class MainPage_GUI extends JFrame implements ActionListener {
                 sell.setResizable(true);
                 sell.setVisible(true);
             }
+        }else if(e.getSource() == startChat){
 
-        }else{
+
+
+
+
+
+
+
+
+
+
+
+        }else {
             for (int i = 0; i < goodsNumber; i++){
                 if(e.getSource() == goodsBuy[i]){
                     if(userIndex == -1){
                         JOptionPane.showMessageDialog(null,"Please Log In First");
                     }else{
-                            myOpr.addToChart(userIndex,i);
+                        myOpr.addToChart(userIndex,i,Integer.parseInt((String) addAmount[i].getSelectedItem()));
                         JOptionPane.showMessageDialog(null, "item was added to chart");
                     }
                 }else if(e.getSource() == contact[i]){

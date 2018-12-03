@@ -106,8 +106,8 @@ public class DataBase_op {
     }
 
 
-    public void addToChart(int userID, int itemID){
-        String cmd = "INSERT INTO cart(buyerId,itemId)VALUES("+"'" + userID+ "'"+",'"+itemID+"')";
+    public void addToChart(int userID, int itemID, int amount){
+        String cmd = "INSERT INTO cart(buyerId,itemId,item_amount)VALUES("+"'" + userID+ "'"+",'"+itemID+"', "+"'" + amount+"'"+")";
         System.out.println(cmd);
         try {
             stmt.executeUpdate(cmd);
@@ -186,6 +186,20 @@ public class DataBase_op {
         String cmd = "SELECT item_amount FROM item WHERE item_id = ("+"'" + ind + "'"+ ")";
         try {
             ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                return rs.getInt("item_amount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getItemAmountInCart(int index){
+        //int ind = index +1;
+        //String cmds = "SELECT item_amount FROM item WHERE itemId =("+"'" + ind+"'"+")";
+        try {
+            ResultSet rs = stmt.executeQuery("SELECT item_amount FROM cart WHERE itemId =("+"'" + index+"'"+")");
             if(rs.next()){
                 return rs.getInt("item_amount");
             }
@@ -313,6 +327,46 @@ public class DataBase_op {
                     case "Seller and Buyer":
                         return 3;
                 }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void updateItemAmount(int itemId, int itemAmount){
+        int itemId2 = itemId+1;
+        int restAmount = 0;
+        System.out.println("This is item Amount "+ itemAmount);
+        String cmd = "SELECT item_amount FROM item WHERE item_id = ("+"'"+itemId2 +"'"+")";
+        System.out.println(cmd);
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                int totalAmount = rs.getInt("item_amount");
+                restAmount = totalAmount - itemAmount;
+                System.out.println("This is what we rest " + restAmount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String cmd1 = "UPDATE item SET item_amount = ("+"'"+restAmount+"'"+") WHERE item_id = ("+"'"+itemId2+"'"+")";
+        System.out.println(cmd1);
+        try {
+            stmt.executeUpdate(cmd1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("---------------------------------------------------");
+    }
+
+    public int getCartAmount(int index){
+        String cmd = "SELECT item_amount FROM cart WHERE itemId = ("+"'"+index+"'"+")";
+        try {
+            ResultSet rs = stmt.executeQuery(cmd);
+            if(rs.next()){
+                return rs.getInt("item_amount");
             }
         } catch (SQLException e) {
             e.printStackTrace();

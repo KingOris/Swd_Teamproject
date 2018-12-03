@@ -66,8 +66,9 @@ public class Cart_GUI extends JFrame {
         markAll.addActionListener(action);
 
         GetHandler removeHandler = new GetHandler();
+        PurchaseHandler purchase = new PurchaseHandler();
         remove.addActionListener(removeHandler);
-        buy.addActionListener(removeHandler);
+        buy.addActionListener(purchase);
 
         for (int i = 0; i < goodsNumber; i++) {
             setItempanel(name.get(i),price.get(i),amout.get(i),i, time.get(i));
@@ -170,6 +171,7 @@ public class Cart_GUI extends JFrame {
 
             for (int i = 0; i < goodsNumber; i++) {
                 if (goodsBuy[i].isSelected()) {
+                    goodsBuy[i].setSelected(false);
                     mainPanel.remove(panel[i]);
                     removeNum.add(itemId.get(i));
                 }
@@ -178,6 +180,35 @@ public class Cart_GUI extends JFrame {
         mainPanel.updateUI();
     }
     }
+
+    private class PurchaseHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            ArrayList<Integer> amount = new ArrayList<>();
+
+            for (int i = 0; i < goodsNumber; i++) {
+                if (goodsBuy[i].isSelected()) {
+                    goodsBuy[i].setSelected(false);
+                    mainPanel.remove(panel[i]);
+                    removeNum.add(itemId.get(i));
+                    amount.add(Integer.parseInt(goodsQuality[i].getText()));
+                }
+            }
+            for (int j = 0; j<removeNum.size(); j++) {
+                myOpr.updateItemAmount(removeNum.get(j),amount.get(j));
+            }
+            myOpr.removeItem(removeNum);
+            removeNum.clear();
+            amount.clear();
+            mainPanel.updateUI();
+            System.out.println("==================================================");
+            JOptionPane.showMessageDialog(null,"Item purchased, Go Order History to View What You Brought");
+        }
+    }
+
+
 
     public void setTotalPanel(){
         totalAmount.setText(totalPrice.toString());
