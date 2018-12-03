@@ -19,6 +19,7 @@ public class Client extends JFrame {
     private Socket client; // socket to communicate with server
     private int userID;
     private int sellerID;
+    private JPanel mainPanel;
 
     // initialize chatServer and set up GUI
     public Client(String host) {
@@ -26,6 +27,7 @@ public class Client extends JFrame {
 
         chatServer = host; // set server to which this client connects
 
+        mainPanel = new JPanel();
         enterField = new JTextField(); // create enterField
         enterField.setEditable(false);
         enterField.addActionListener(
@@ -38,12 +40,13 @@ public class Client extends JFrame {
                 } // end anonymous inner class
         ); // end call to addActionListener
 
-        add(enterField, BorderLayout.NORTH);
+        mainPanel.add(enterField, BorderLayout.NORTH);
 
         displayArea = new JTextArea(); // create displayArea
-        add(new JScrollPane(displayArea), BorderLayout.CENTER);
+        mainPanel.add(new JScrollPane(displayArea), BorderLayout.CENTER);
 
-        setSize(300, 150); // set size of window
+        add(mainPanel);
+        setSize(600, 600); // set size of window
         setVisible(true); // show window
     } // end Client constructor
 
@@ -182,17 +185,5 @@ public class Client extends JFrame {
      *************************************************************************/
 
 
-    public static void main(String[] args) {
-        Client application; // declare client application
 
-        // if no command line args
-        if (args.length == 0)
-            application = new Client("127.0.0.1"); // connect to localhost
-        else
-            application = new Client(args[0]); // use args to connect
-
-        application.setSize(600,600);
-        application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        application.runClient(); // run client application
-    }
 }

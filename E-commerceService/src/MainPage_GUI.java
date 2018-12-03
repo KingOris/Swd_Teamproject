@@ -45,10 +45,10 @@ public class MainPage_GUI extends JFrame implements ActionListener {
     }
 
     public void setUserIndex(int userIndex) {
-        this.userIndex = userIndex;
+        MainPage_GUI.userIndex = userIndex;
     }
 
-    private int userIndex = -1;
+    private static int userIndex = -1;
 
 
 
@@ -73,7 +73,6 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         myChart.addActionListener(this);
         sell.addActionListener(this);
         search.addActionListener(this);
-        startChat.addActionListener(new ButtonHandler());
         addLogIn();
         addSearchBar();
         addTittle();
@@ -297,19 +296,6 @@ public class MainPage_GUI extends JFrame implements ActionListener {
         }
     }
 
-    public class ButtonHandler implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Client application; // declare client application
-            application = new Client("127.0.0.1"); // connect to localhost
-
-            application.setSize(600,600);
-            application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            application.getInt(userIndex,chatSellerId);
-            application.runClient();
-        }
-    }
 
     public int getChatSellerId() {
         return chatSellerId;

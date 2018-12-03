@@ -7,22 +7,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Login_GUI extends JFrame {
+public class Login_GUI extends JFrame{
     private JLabel user = new JLabel("     ID:      ");
     private JLabel password = new JLabel("Password:");
     private JTextField userID = new JTextField();
     private JPasswordField userPassword = new JPasswordField();
-    private JButton userlog = new JButton("Log In");
+    public JButton userlog = new JButton("Log In");
     private JButton register = new JButton("Register");
     private String idSave;
     private String passSave;
     private boolean logIn;
+    private boolean set;
+    private int userId;
+    private JLabel seller = new JLabel("Seller ID");
+    private JTextField sellerId = new JTextField();
+
     DataBase_Con myDB = new DataBase_Con();
     public DataBase_op myOpr=new DataBase_op(myDB);
     public Login_GUI(){
         super("Log In");
         //userIndex = -1;
         JPanel mainPanel = new JPanel();
+
+        set = false;
 
         JPanel panel = new JPanel();
         FlowLayout layout = new FlowLayout();
@@ -51,6 +58,7 @@ public class Login_GUI extends JFrame {
         mainPanel.add(panel2);
         mainPanel.add(panel1);
 
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -62,6 +70,48 @@ public class Login_GUI extends JFrame {
         });
         add(mainPanel);
     }
+
+    public Login_GUI(boolean a){
+        super("Log In");
+        //userIndex = -1;
+        JPanel mainPanel = new JPanel();
+
+        JPanel panel = new JPanel();
+        FlowLayout layout = new FlowLayout();
+        panel.setLayout(layout);
+        userID.setPreferredSize(new Dimension(300, 50));
+        panel.add(user);
+        panel.add(userID);
+
+        set = true;
+
+        JPanel panel2 = new JPanel();
+        userPassword.setPreferredSize(new Dimension(300, 50));
+        panel2.add(password);
+        panel2.add(userPassword);
+
+        JPanel panel3 = new JPanel();
+        sellerId.setPreferredSize(new Dimension(300, 50));
+        panel3.add(seller);
+        panel3.add(sellerId);
+
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(layout);
+        userlog.setPreferredSize(new Dimension(140, 50));
+        ButtonHandler button= new ButtonHandler();
+        userlog.addActionListener(button);
+        register.setPreferredSize(new Dimension(140, 50));
+        register.addActionListener(button);
+        panel1.add(userlog);
+        panel1.add(register);
+        mainPanel.add(panel);
+        mainPanel.add(panel2);
+        mainPanel.add(panel3);
+        mainPanel.add(panel1);
+
+
+        add(mainPanel);
+    }
     public static void main(String args[]){
         /*Login_GUI log = new Login_GUI();
         log.setVisible(true);
@@ -69,6 +119,7 @@ public class Login_GUI extends JFrame {
         log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         log.setResizable(false);*/
     }
+
 
     public class ButtonHandler implements ActionListener{
 
@@ -81,10 +132,16 @@ public class Login_GUI extends JFrame {
                 if(myOpr.selectName(idSave)){//登录判断
                     if(myOpr.selectPassword(passSave)){
                         MainPage_GUI lalal = new MainPage_GUI();
-                        lalal.showMain(myOpr.getUserIndex(idSave));
+                        if(!set){
+                            lalal.setVisible(true);
+                            lalal.showMain(myOpr.getUserIndex(idSave));
+                            lalal.logIn.setEnabled(false);
+                        }else {
+                        lalal.setVisible(false);
+                    }
                         lalal.setUserIndex(myOpr.getUserIndex(idSave));
                         System.out.println("This is user ID after log" + lalal.getUserIndex());
-                        lalal.logIn.setEnabled(false);
+                        userId = lalal.getUserIndex();
                         dispose();
                         logIn = true;
                         //setVisible(false);//登录成功则关闭界面
@@ -107,6 +164,14 @@ public class Login_GUI extends JFrame {
             }
 
         }
+    }
+
+    public int getUserId(){
+        return userId;
+    }
+
+    public int getSellerId(){
+        return Integer.parseInt(sellerId.getText());
     }
 }
 

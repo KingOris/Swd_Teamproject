@@ -30,8 +30,8 @@ public class Server extends JFrame {
         executorService = Executors.newFixedThreadPool(100);
 
         enterField = new JTextField();  // create the enterField
-        add(new JScrollPane(enterField));
-        enterField.setEnabled(true);  // set the enderField is not able to edit
+        add(new JScrollPane(enterField), BorderLayout.NORTH);
+       // enterField.setEnabled(true);  // set the enderField is not able to edit
 
         displayArea = new JTextArea(); // create displayArea
         add(new JScrollPane(displayArea), BorderLayout.CENTER);
@@ -60,6 +60,17 @@ public class Server extends JFrame {
         }
     }
 
+    private void displayMessage(final String messageToDisplay) {
+        SwingUtilities.invokeLater(
+                new Runnable() {
+                    public void run() // updates displayArea
+                    {
+                        displayArea.append(messageToDisplay); // append message
+                    } // end method run
+                } // end anonymous inner class
+        ); // end call to SwingUtilities.invokeLater
+    } // end method displayMessage
+
     private class MultiSocket implements Runnable{
         private ObjectInputStream input;
         private ObjectOutputStream output;
@@ -77,34 +88,35 @@ public class Server extends JFrame {
                  start = true;
                  try {
                      getStreams();
-                     String message = "Connection To" + count + " successful";
+                     String message = "Connection To " + count + " successful";
                      sendData(message); // send connection successful message
-
 
                      try {
                          message = (String) input.readObject();
-                         String m1 = message.substring(10,11);
+                         displayMessage(message);
                          //connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
                          connect2Others.add(new Connect2Other(Integer.parseInt(message.substring(10,11)),count));
-                         connct2 = new Connect2Other(Integer.parseInt(message.substring(10,11)),Integer.parseInt(message.substring(10,11)));
+                         connct2 = new Connect2Other(Integer.parseInt(message.substring(10,11)),Integer.parseInt(message.substring(11,12)));
+                         sendData(message.substring(9,10));
                      } catch (ClassNotFoundException e) {
                          e.printStackTrace();
                      }
+
                      do // process messages sent from client
                      {
 
                          try // read message and display it
                          {
                              message = (String) input.readObject(); // read new message
-                             for(int i = 0; i < connect2Others.size(); i++){
-                                 if(connect2Others.get(i).getUserID() == connct2.getSocketID()){
-                                     serverSockets[i].sendData(message);
-                                 }
-                             }
-                             displayArea.append("\n" + count + message); // display message
+                            // for(int i = 0; i < connect2Others.size(); i++){
+                                // if(connect2Others.get(i).getUserID() == connct2.getSocketID()){
+                                     serverSockets[0].sendData(message);
+                           //      }
+                             //}
+                             displayMessage("\n" + count + message); // display message
                          } // end try
                          catch (ClassNotFoundException classNotFoundException) {
-                             displayArea.append("\nUnknown object type received");
+                             displayMessage("\nUnknown object type received");
                          }
 
                      } while (!message.equals("CLIENT>>> TERMINATE"));
@@ -113,7 +125,7 @@ public class Server extends JFrame {
                  } finally {
                      closeConection();
                      nClientActive--;
-                     displayArea.append("" + nClientActive + " Alive");
+                     displayMessage("" + nClientActive + " Alive");
                  }
              }catch (IOException ioException){
                  ioException.printStackTrace();
@@ -128,11 +140,11 @@ public class Server extends JFrame {
     }
     public void sendData(String message){
         try{
-            output.writeObject("SERVER>>> " + count + message);  // the line88 - line89 are the working as send the object to the client
+            output.writeObject(message);  // the line88 - line89 are the working as send the object to the client
             output.flush();
-            displayArea.append("SERVER>>> " + count + message);
+            displayMessage( message);
         }catch (IOException ioException) {
-            displayArea.append("\nError writing object");
+            displayMessage("\nError writing object");
         }
     }
 
@@ -155,9 +167,9 @@ public class Server extends JFrame {
     }
         private void waitForConnection() throws IOException {
 
-            displayArea.append("Waiting for connection" + count + "\n");
+            displayMessage("Waiting for connection" + count + "\n");
             connection = server.accept(); // allow server to accept connection
-            displayArea.append("Connection " + count + " received from: " +
+            displayMessage("Connection " + count + " received from: " +
                     connection.getInetAddress().getHostName());
         }
 
@@ -172,10 +184,7 @@ public class Server extends JFrame {
             ioException.printStackTrace();  //printStackTrace class is used to help the developer to understand where the actual problem occurred
         }
     }
+
 }
-    public static void main(String[] args) {
-        Server application = new Server(); // create server
-        application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        application.runServer(); // run server application
-    }
+
 }
