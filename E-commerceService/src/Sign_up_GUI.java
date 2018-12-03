@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+//The class to register a new account
 public class Sign_up_GUI extends JFrame implements ActionListener {
     private JTextField IDField = new JTextField(10);
     private JPasswordField pWField = new JPasswordField(10);
@@ -33,6 +34,7 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    //To inital the signup gui
     private void initialSignUp(){
 
         JPanel panel = new JPanel(new GridLayout(6,2));
@@ -65,6 +67,7 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
         this.add(panel);
     }
 
+    //To generate teh combobox
     private JComboBox<String> generateBar(){
         String[] choice = {"Account Type", "Buyer", "Seller", "Seller and Buyer",};
         JComboBox<String> bar = new JComboBox<>(choice);
@@ -72,6 +75,7 @@ public class Sign_up_GUI extends JFrame implements ActionListener {
         return bar;
     }
 
+    //To check if the name is unique
     private boolean isUnique(String Id){
         return true;
     }

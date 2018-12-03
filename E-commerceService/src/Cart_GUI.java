@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 
 public class Cart_GUI extends JFrame {
+
     JPanel mainPanel;
     private int goodsNumber;
     private JButton markAll;
@@ -37,7 +38,7 @@ public class Cart_GUI extends JFrame {
     private MainPage_GUI openMain = new MainPage_GUI();
 
 
-
+//The constructor
     public Cart_GUI(int goodsNumber, ArrayList<String> name, ArrayList<String> price, ArrayList<Integer> amout, ArrayList<String> time, ArrayList<Integer> itemId) {
     //public Cart_GUI(int goodsNumber) {
         super();
@@ -71,6 +72,7 @@ public class Cart_GUI extends JFrame {
         remove.addActionListener(removeHandler);
         buy.addActionListener(purchase);
 
+        //Get all data in chart
         for (int i = 0; i < goodsNumber; i++) {
             setItempanel(name.get(i),price.get(i),amout.get(i),i, time.get(i));
             //System.out.println("This is item" + items.get(i));
@@ -86,6 +88,7 @@ public class Cart_GUI extends JFrame {
         all.add(scroll);
         all.add(totalPanel);add(all);
 
+        //Add window listener when the window is closed
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -97,6 +100,7 @@ public class Cart_GUI extends JFrame {
         });
     }
 
+    //Add the title lable
     private void setTitle(){
         JLabel Name = new JLabel("Products Name");
         Name.setHorizontalAlignment(JLabel.LEFT);
@@ -117,6 +121,7 @@ public class Cart_GUI extends JFrame {
         all.add(title);
     }
 
+    //Set all the items in chart
     public void setItempanel(String itemname, String itemprice, int amount, int i, String tim) {
         goodsName[i] = new JLabel(itemname);
         goodsPrice[i] = new JLabel(itemprice);
@@ -128,6 +133,7 @@ public class Cart_GUI extends JFrame {
 
         panel[i] = new JPanel(new GridLayout(1, 5));
 
+        //To caculate the total price
         if (goodsBuy[i].isSelected()) {
             BigDecimal ppp = new BigDecimal(goodsPrice[i].getText());
             int quantity = Integer.parseInt(goodsQuality[i].getText());
@@ -142,6 +148,7 @@ public class Cart_GUI extends JFrame {
         mainPanel.add(panel[i]);
     }
 
+    //The ItemListener for check boxes
     private class CheckBoxHandler implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -160,6 +167,7 @@ public class Cart_GUI extends JFrame {
         }
     }
 
+    //The action listener for checkall button
     private class CheckAll implements ActionListener {
 
         @Override
@@ -177,6 +185,7 @@ public class Cart_GUI extends JFrame {
         }
     }
 
+    //The action listener for remove button
     private class GetHandler implements ActionListener{
 
         @Override
@@ -194,6 +203,7 @@ public class Cart_GUI extends JFrame {
     }
     }
 
+    //The action listener for buy button
     private class PurchaseHandler implements ActionListener{
 
         @Override
@@ -227,7 +237,7 @@ public class Cart_GUI extends JFrame {
     }
 
 
-
+//To add all thing in totalPanel
     public void setTotalPanel(){
         totalAmount.setText(totalPrice.toString());
         totalPanel.add(total);
@@ -237,6 +247,7 @@ public class Cart_GUI extends JFrame {
         totalPanel.add(buy);
     }
 
+    //The function to remove buy button
     public void removeBuy(){
         totalPanel.remove(buy);
     }

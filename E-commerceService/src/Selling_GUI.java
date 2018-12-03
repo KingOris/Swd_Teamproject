@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+//The class is to register the sell items
 public class Selling_GUI extends JFrame {
     private JTextField itemname;
     private JTextField price;
@@ -70,6 +71,7 @@ public class Selling_GUI extends JFrame {
         add(panel);
     }
 
+    //The ActionListener inner class for register button
     private class ButtonHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -97,6 +99,7 @@ public class Selling_GUI extends JFrame {
         return nametext;
     }
 
+    //The actionListerner inner class for updateing the image
     private class ReadHandler implements ActionListener{
 
         @Override
@@ -118,6 +121,7 @@ public class Selling_GUI extends JFrame {
         return bufferedImage;
     }
 
+    //The GridBagConstraints to set up the GUI
     private GridBagConstraints setGridBagConstraints(int width,int height, int weightx, int weighty, int num){
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         if(num == 0){
